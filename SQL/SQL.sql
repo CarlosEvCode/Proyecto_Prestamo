@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS gestion_herramientas;
+USE gestion_herramientas;
+
 CREATE TABLE IF NOT EXISTS marcas (
     id_marca INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
@@ -29,8 +32,8 @@ CREATE TABLE IF NOT EXISTS modelos (
     nombre VARCHAR(100) NOT NULL,
     id_marca INT,
     id_categoria INT,
-    FOREIGN KEY (id_marca) REFERENCES marcas(id_marca) ,
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria) 
+    FOREIGN KEY (id_marca) REFERENCES marcas (id_marca),
+    FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -40,13 +43,13 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nombre_completo VARCHAR(150) NOT NULL,
     id_rol INT,
     activo BOOLEAN DEFAULT TRUE,
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_rol) REFERENCES roles (id_rol),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS trabajadores (
@@ -56,13 +59,13 @@ CREATE TABLE IF NOT EXISTS trabajadores (
     cargo VARCHAR(100),
     turno VARCHAR(50),
     id_area INT,
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_area) REFERENCES areas(id_area),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_area) REFERENCES areas (id_area),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS herramientas (
@@ -73,13 +76,13 @@ CREATE TABLE IF NOT EXISTS herramientas (
     condicion ENUM('bueno', 'regular', 'malo') DEFAULT 'bueno',
     ubicacion VARCHAR(100),
     activo BOOLEAN DEFAULT TRUE,
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_modelo) REFERENCES modelos(id_modelo),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_modelo) REFERENCES modelos (id_modelo),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS compras (
@@ -88,29 +91,29 @@ CREATE TABLE IF NOT EXISTS compras (
     id_proveedor INT,
     id_usuario INT,
     observaciones TEXT,
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_proveedor) REFERENCES proveedores (id_proveedor),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS detalle_compra (
     id_detalle INT AUTO_INCREMENT PRIMARY KEY,
     id_compra INT,
     id_herramienta INT,
-    precio_unitario DECIMAL(10,2),
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_compra) REFERENCES compras(id_compra),
-    FOREIGN KEY (id_herramienta) REFERENCES herramientas(id_herramienta),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    precio_unitario DECIMAL(10, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_compra) REFERENCES compras (id_compra),
+    FOREIGN KEY (id_herramienta) REFERENCES herramientas (id_herramienta),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS prestamos (
@@ -122,16 +125,20 @@ CREATE TABLE IF NOT EXISTS prestamos (
     fecha_devolucion_esperada DATETIME,
     fecha_devolucion_real DATETIME,
     motivo TEXT,
-    estado ENUM('activo', 'devuelto', 'vencido') DEFAULT 'activo',
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_trabajador) REFERENCES trabajadores(id_trabajador),
-    FOREIGN KEY (id_usuario_entrega) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (id_usuario_recibe) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    estado ENUM(
+        'activo',
+        'devuelto',
+        'vencido'
+    ) DEFAULT 'activo',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id_trabajador),
+    FOREIGN KEY (id_usuario_entrega) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (id_usuario_recibe) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS detalle_prestamo (
@@ -141,12 +148,12 @@ CREATE TABLE IF NOT EXISTS detalle_prestamo (
     condicion_entrega ENUM('bueno', 'regular', 'malo') NOT NULL,
     condicion_devolucion ENUM('bueno', 'regular', 'malo'),
     observaciones TEXT,
-    fecha_creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    creado_por INT,
-    fecha_modificado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    modificado_por INT,
-    FOREIGN KEY (id_prestamo) REFERENCES prestamos(id_prestamo),
-    FOREIGN KEY (id_herramienta) REFERENCES herramientas(id_herramienta),
-    FOREIGN KEY (creado_por) REFERENCES usuarios(id_usuario),
-    FOREIGN KEY (modificado_por) REFERENCES usuarios(id_usuario)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by INT,
+    FOREIGN KEY (id_prestamo) REFERENCES prestamos (id_prestamo),
+    FOREIGN KEY (id_herramienta) REFERENCES herramientas (id_herramienta),
+    FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
+    FOREIGN KEY (updated_by) REFERENCES usuarios (id_usuario)
 ) ENGINE = InnoDB;
