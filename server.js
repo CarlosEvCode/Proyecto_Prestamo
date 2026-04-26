@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
-app.use('/api/catalogos', require('./routes/catalogos'));
+/* app.use('/api/catalogos', require('./routes/catalogos'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/prestamos', require('./routes/prestamos'));
-app.use('/api/compras', require('./routes/compras'));
+app.use('/api/compras', require('./routes/compras')); */
 app.use('/api/trabajadores', require('./routes/trabajadores'));
 
 app.get('/{*path}', (req, res) => {
