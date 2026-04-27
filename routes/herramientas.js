@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../config/db");
 
 /* Get herramientas = obtener todas las herramientas */
-router.get("/herramientas", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const query = `
       SELECT h.id_herramienta, h.codigo, h.numero_serie,
@@ -26,7 +26,7 @@ router.get("/herramientas", async (req, res) => {
 });
 
 /* Get herramienta por id */
-router.get("/herramientas/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const idHerramienta = req.params.id;
     const query = `
@@ -57,7 +57,7 @@ router.get("/herramientas/:id", async (req, res) => {
 });
 
 /* POST herramientas = crear nueva herramienta */
-router.post("/herramientas", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { codigo, numero_serie, id_modelo, condicion, ubicacion, activo } =
       req.body;
@@ -109,7 +109,7 @@ router.post("/herramientas", async (req, res) => {
 });
 
 /* PUT herramientas = actualizar herramienta */
-router.put("/herramientas/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const idHerramienta = req.params.id;
     const { codigo, numero_serie, id_modelo, condicion, ubicacion, activo } =
@@ -168,7 +168,7 @@ router.put("/herramientas/:id", async (req, res) => {
 });
 
 /* DELETE herramientas = eliminar herramienta */
-router.delete("/herramientas/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const idHerramienta = req.params.id;
 

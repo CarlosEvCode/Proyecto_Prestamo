@@ -16,6 +16,7 @@
 ════════════════════════════════════════════ */
 const AppState = {
   marcas:    [],
+  herramientas: [],
   deleteTarget: { type: null, id: null, name: null, onConfirm: null },
 };
 

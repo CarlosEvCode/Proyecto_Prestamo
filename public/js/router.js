@@ -32,6 +32,11 @@ const ROUTES = {
     view:   '/views/marcas.html',
     module: () => MarcasModule,
   },
+  herramientas: {
+    title:  'Herramientas',
+    view:   '/views/herramientas.html',
+    module: () => HerramientasModule,
+  },
 
   // ── Ejemplo de cómo agregar una ruta nueva en el futuro ──
   // clientes: {

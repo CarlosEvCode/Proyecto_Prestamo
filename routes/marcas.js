@@ -2,19 +2,19 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
-/* Get marcas =  obtenr todas las marcas */
-router.get("/marcas", async (req, res) => {
+/* Get marcas =  obtener todas las marcas */
+router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM marcas ORDER BY nombre ASC");
     res.status(200).json({ success: true, data: rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Error al obtner marcas" });
+    res.status(500).json({ success: false, message: "Error al obtener marcas" });
   }
 });
 
 /* Get marcas por id  */
-router.get("/marcas/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const idBuscado = req.params.id;
     const [rows] = await db.query("SELECT * FROM marcas WHERE id_marca = ?", [
@@ -35,7 +35,7 @@ router.get("/marcas/:id", async (req, res) => {
 });
 
 /* POST marcas = crear marca */
-router.post("/marcas", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { nombre } = req.body;
 
@@ -64,7 +64,7 @@ router.post("/marcas", async (req, res) => {
 });
 
 /* Put marcas = actualizar marca */
-router.put("/marcas/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const idMarca = req.params.id;
     const { nombre } = req.body;
@@ -98,7 +98,7 @@ router.put("/marcas/:id", async (req, res) => {
 });
 
 /* DELETE marcas = eliminar marcas */
-router.delete("/marcas/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const idMarca = req.params.id;
 

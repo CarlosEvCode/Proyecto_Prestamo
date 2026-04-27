@@ -8,11 +8,11 @@
 const DashboardModule = {
 
   async init() {
-    // El enlace "Ver todos" del dashboard navega a productos
-    document.querySelector('[data-page="productos"].btn-link')
+    // El enlace "Ver todos" del dashboard navega a herramientas
+    document.querySelector('[data-page="herramientas"].btn-link')
       ?.addEventListener('click', e => {
         e.preventDefault();
-        Router.navigateTo('productos');
+        Router.navigateTo('herramientas');
       });
 
     await this.load();
@@ -21,16 +21,16 @@ const DashboardModule = {
   async load() {
     try {
       const [resP, resM] = await Promise.all([
-        http('/api/productos'),
+        http('/api/herramientas'),
         http('/api/marcas'),
       ]);
 
-      AppState.productos = resP.data;
+      AppState.herramientas = resP.data;
       AppState.marcas    = resM.data;
       updateBadges();
 
       this._renderStats();
-      this._renderRecientes(AppState.productos.slice(0, 5));
+      this._renderRecientes(AppState.herramientas.slice(0, 5));
       this._renderChart();
     } catch (e) {
       showToast('Error al cargar dashboard: ' + e.message, 'error');
@@ -38,11 +38,11 @@ const DashboardModule = {
   },
 
   _renderStats() {
-    const ps    = AppState.productos;
+    const ps    = AppState.herramientas;
     const suma  = ps.reduce((a, b) => a + parseFloat(b.precio), 0);
     const prom  = ps.length ? suma / ps.length : 0;
 
-    setText('stat-total-productos', ps.length);
+    setText('stat-total-herramientas', ps.length);
     setText('stat-total-marcas',    AppState.marcas.length);
     setText('stat-valor-total',     'S/. ' + formatPrecio(suma));
     setText('stat-precio-promedio', 'S/. ' + formatPrecio(prom));
@@ -79,7 +79,7 @@ const DashboardModule = {
   _renderChart() {
     const el = document.getElementById('chart-marcas');
     const counts = {};
-    AppState.productos.forEach(p => {
+    AppState.herramientas.forEach(p => {
       counts[p.nombremarca] = (counts[p.nombremarca] || 0) + 1;
     });
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);

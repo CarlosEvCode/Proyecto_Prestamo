@@ -39,7 +39,7 @@ const MarcasModule = {
 
     tbody.innerHTML = lista.map((m, i) => {
       
-      const total = AppState.productos.filter(p => p.idmarca == m.id).length;
+      const total = AppState.productos.filter(p => p.id_marca == m.id_marca).length;
       return `
         <tr>
           <td><span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted)">${String(i+1).padStart(2,'0')}</span></td>
@@ -48,13 +48,13 @@ const MarcasModule = {
               <div style="width:32px;height:32px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--primary)">
                 <i class="bi bi-bookmark-star-fill"></i>
               </div>
-              <span class="fw-600">${escapeHtml(m.nombremarca)}</span>
+              <span class="fw-600">${escapeHtml(m.nombre)}</span>
             </div>
           </td>
           <td><span class="badge-garantia">${total} producto${total !== 1 ? 's' : ''}</span></td>
           <td>
-            <button class="btn-action btn-action-edit"   onclick="MarcasModule.openEdit(${m.id})"   title="Editar"><i class="bi bi-pencil-fill"></i></button>
-            <button class="btn-action btn-action-delete" onclick="MarcasModule.confirmDel(${m.id},'${escapeHtml(m.nombremarca)}')" title="Eliminar"><i class="bi bi-trash3-fill"></i></button>
+            <button class="btn-action btn-action-edit"   onclick="MarcasModule.openEdit(${m.id_marca})"   title="Editar"><i class="bi bi-pencil-fill"></i></button>
+            <button class="btn-action btn-action-delete" onclick="MarcasModule.confirmDel(${m.id_marca},'${escapeHtml(m.nombre)}')" title="Eliminar"><i class="bi bi-trash3-fill"></i></button>
           </td>
         </tr>`;
     }).join('');
@@ -63,7 +63,7 @@ const MarcasModule = {
   _filter() {
     const search = document.getElementById('searchMarca')?.value.toLowerCase() || '';
     this._render(AppState.marcas.filter(m =>
-      m.nombremarca.toLowerCase().includes(search)
+      m.nombre.toLowerCase().includes(search)
     ));
   },
 
@@ -71,14 +71,14 @@ const MarcasModule = {
   _openModal(mode, marca = null) {
     const isEdit = mode === 'edit';
     setText('modalMarcaTitle', isEdit ? 'Editar Marca' : 'Nueva Marca');
-    document.getElementById('marcaId').value = isEdit ? marca.id : '';
-    document.getElementById('mNombre').value = isEdit ? marca.nombremarca : '';
+    document.getElementById('marcaId').value = isEdit ? marca.id_marca : '';
+    document.getElementById('mNombre').value = isEdit ? marca.nombre : '';
     clearErrors(['mNombre']);
     openOverlay('modalMarcaOverlay');
   },
 
   openEdit(id) {
-    const marca = AppState.marcas.find(m => m.id === id);
+    const marca = AppState.marcas.find(m => m.id_marca === id);
     if (!marca) return showToast('Marca no encontrada', 'error');
     this._openModal('edit', marca);
   },
@@ -108,7 +108,7 @@ const MarcasModule = {
     const isEdit = !!id;
     setLoading('btnSaveMarca','btnSaveMarcaText','btnSaveMarcaSpinner', true);
     try {
-      await http(isEdit ? `/api/marcas/${id}` : '/api/marcas', isEdit ? 'PUT' : 'POST', { nombremarca: nombre });
+      await http(isEdit ? `/api/marcas/${id}` : '/api/marcas', isEdit ? 'PUT' : 'POST', { nombre: nombre });
       showToast(`Marca ${isEdit ? 'actualizada' : 'creada'} correctamente`, 'success');
       closeOverlay('modalMarcaOverlay');
       await this.load();

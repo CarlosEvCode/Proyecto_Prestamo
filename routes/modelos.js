@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../config/db");
 
 /* Get modelos  = para traer las marcas y categorias */
-router.get("/modelos", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const query = `
       SELECT m.id_modelo, m.nombre, 
@@ -23,7 +23,7 @@ router.get("/modelos", async (req, res) => {
 });
 
 /* Get modelos por id */
-router.get("/modelos/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const idModelo = req.params.id;
     const query = `
@@ -50,7 +50,7 @@ router.get("/modelos/:id", async (req, res) => {
 });
 
 /* Post = para crear nuevo modelo */
-router.post("/modelos", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { nombre, id_marca, id_categoria } = req.body;
 
@@ -76,7 +76,7 @@ router.post("/modelos", async (req, res) => {
 });
 
 /* PUT modelos = actualizar modelo */
-router.put("/modelos/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const idModelo = req.params.id;
     const { nombre, id_marca, id_categoria } = req.body;
@@ -111,7 +111,7 @@ router.put("/modelos/:id", async (req, res) => {
 });
 
 /* DELETE modelos = eliminar modelo */
-router.delete("/modelos/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const idModelo = req.params.id;
 
