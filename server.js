@@ -13,7 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
-app.use('/api/catalogos', require('./routes/catalogos'));
+app.use('/api', require('./routes/marcas'));
+app.use('/api', require('./routes/modelos'));
 /* app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/prestamos', require('./routes/prestamos'));
