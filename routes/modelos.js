@@ -2,16 +2,14 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
-/* Get modelos  = para traer las marcas y categorias */
+/* Get modelos  = para traer las marcas */
 router.get("/", async (req, res) => {
   try {
     const query = `
-      SELECT m.id_modelo, m.nombre, 
-             ma.nombre as marca, 
-             c.nombre as categoria 
+      SELECT m.id_modelo, m.nombre, m.id_marca,
+             ma.nombre as marca
       FROM modelos m
       LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
-      LEFT JOIN categorias c ON m.id_categoria = c.id_categoria
     `;
     const [rows] = await db.query(query);
     res.status(200).json({ success: true, data: rows });
@@ -27,14 +25,10 @@ router.get("/:id", async (req, res) => {
   try {
     const idModelo = req.params.id;
     const query = `
-      SELECT m.id_modelo, m.nombre, 
-             ma.nombre as marca, 
-             c.nombre as categoria,
-             m.id_marca,
-             m.id_categoria
+      SELECT m.id_modelo, m.nombre, m.id_marca,
+             ma.nombre as marca
       FROM modelos m
       LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
-      LEFT JOIN categorias c ON m.id_categoria = c.id_categoria
       WHERE m.id_modelo = ?
     `;
     const [rows] = await db.query(query, [idModelo]);
@@ -52,23 +46,23 @@ router.get("/:id", async (req, res) => {
 /* Post = para crear nuevo modelo */
 router.post("/", async (req, res) => {
   try {
-    const { nombre, id_marca, id_categoria } = req.body;
+    const { nombre, id_marca } = req.body;
 
-    if (!nombre || !id_marca || !id_categoria) {
+    if (!nombre || !id_marca) {
       return res
         .status(400)
         .json({ success: false, message: "Faltan datos obligatorios" });
     }
 
     const [result] = await db.query(
-      "INSERT INTO modelos (nombre, id_marca, id_categoria) VALUES (?, ?, ?)",
-      [nombre, id_marca, id_categoria],
+      "INSERT INTO modelos (nombre, id_marca) VALUES (?, ?)",
+      [nombre, id_marca],
     );
 
     res.status(201).json({
       success: true,
       message: "Modelo creado",
-      data: { id_modelo: result.insertId, nombre, id_marca, id_categoria },
+      data: { id_modelo: result.insertId, nombre, id_marca },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error al crear modelo" });
@@ -79,17 +73,17 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const idModelo = req.params.id;
-    const { nombre, id_marca, id_categoria } = req.body;
+    const { nombre, id_marca } = req.body;
 
-    if (!nombre || !id_marca || !id_categoria) {
+    if (!nombre || !id_marca) {
       return res
         .status(400)
         .json({ success: false, message: "Faltan datos obligatorios" });
     }
 
     const [result] = await db.query(
-      "UPDATE modelos SET nombre = ?, id_marca = ?, id_categoria = ? WHERE id_modelo = ?",
-      [nombre, id_marca, id_categoria, idModelo],
+      "UPDATE modelos SET nombre = ?, id_marca = ? WHERE id_modelo = ?",
+      [nombre, id_marca, idModelo],
     );
 
     if (result.affectedRows === 0) {
@@ -101,7 +95,7 @@ router.put("/:id", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Modelo actualizado correctamente",
-      data: { id_modelo: idModelo, nombre, id_marca, id_categoria },
+      data: { id_modelo: idModelo, nombre, id_marca },
     });
   } catch (error) {
     res

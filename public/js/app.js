@@ -89,6 +89,7 @@ const DeleteModal = {
 function updateBadges() {
   setText('badge-herramientas', (AppState.herramientas || []).length);
   setText('badge-marcas',    (AppState.marcas || []).length);
+  setText('badge-modelos',   (AppState.modelos || []).length);
 }
 
 /* ════════════════════════════════════════════

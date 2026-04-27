@@ -32,6 +32,11 @@ const ROUTES = {
     view:   '/views/marcas.html',
     module: () => MarcasModule,
   },
+  modelos: {
+    title:  'Modelos',
+    view:   '/views/modelos.html',
+    module: () => ModelosModule,
+  },
   herramientas: {
     title:  'Herramientas',
     view:   '/views/herramientas.html',

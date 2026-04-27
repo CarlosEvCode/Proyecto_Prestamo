@@ -1,13 +1,9 @@
 CREATE DATABASE IF NOT EXISTS gestion_herramientas;
+
 USE gestion_herramientas;
 
 CREATE TABLE IF NOT EXISTS marcas (
     id_marca INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
-) ENGINE = InnoDB;
-
-CREATE TABLE IF NOT EXISTS categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB;
 
@@ -31,9 +27,7 @@ CREATE TABLE IF NOT EXISTS modelos (
     id_modelo INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     id_marca INT,
-    id_categoria INT,
-    FOREIGN KEY (id_marca) REFERENCES marcas (id_marca),
-    FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria)
+    FOREIGN KEY (id_marca) REFERENCES marcas (id_marca)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS usuarios (

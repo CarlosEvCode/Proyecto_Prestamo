@@ -35,8 +35,8 @@ const HerramientasModule = {
     const select = document.getElementById('hModelo');
     if (!select) return;
     
-    const html = AppState.modelos.map(m => 
-      `<option value="${m.id_modelo}">${escapeHtml(m.nombre)} (${m.marca})</option>`
+    const html = (AppState.modelos || []).map(m => 
+      `<option value="${m.id_modelo}">${escapeHtml(m.nombre)} (${m.marca || 'Sin marca'})</option>`
     ).join('');
     
     select.innerHTML = '<option value="">-- Selecciona un modelo --</option>' + html;
