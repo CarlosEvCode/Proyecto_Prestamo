@@ -7,12 +7,13 @@ router.get("/", async (req, res) => {
   try {
     const query = `
       SELECT h.id_herramienta, h.codigo, h.numero_serie,
-             m.nombre as modelo,
-             m.id_modelo,
+             m.nombre as modelo, m.id_modelo,
+             ma.nombre as marca, m.id_marca,
              h.condicion, h.ubicacion, h.activo,
              h.created_at, h.updated_at
       FROM herramientas h
       LEFT JOIN modelos m ON h.id_modelo = m.id_modelo
+      LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
       ORDER BY h.codigo ASC
     `;
     const [rows] = await db.query(query);
@@ -31,12 +32,13 @@ router.get("/:id", async (req, res) => {
     const idHerramienta = req.params.id;
     const query = `
       SELECT h.id_herramienta, h.codigo, h.numero_serie,
-             m.nombre as modelo,
-             m.id_modelo,
+             m.nombre as modelo, m.id_modelo,
+             ma.nombre as marca, m.id_marca,
              h.condicion, h.ubicacion, h.activo,
              h.created_at, h.updated_at
       FROM herramientas h
       LEFT JOIN modelos m ON h.id_modelo = m.id_modelo
+      LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
       WHERE h.id_herramienta = ?
     `;
     const [rows] = await db.query(query, [idHerramienta]);
