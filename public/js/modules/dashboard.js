@@ -39,13 +39,11 @@ const DashboardModule = {
 
   _renderStats() {
     const ps    = AppState.herramientas;
-    const suma  = ps.reduce((a, b) => a + parseFloat(b.precio), 0);
-    const prom  = ps.length ? suma / ps.length : 0;
-
+    // Herramientas no tiene precio, solo contamos cantidad
     setText('stat-total-herramientas', ps.length);
     setText('stat-total-marcas',    AppState.marcas.length);
-    setText('stat-valor-total',     'S/. ' + formatPrecio(suma));
-    setText('stat-precio-promedio', 'S/. ' + formatPrecio(prom));
+    setText('stat-valor-total',     'S/. 0.00'); // Sin datos de precio
+    setText('stat-precio-promedio', 'S/. 0.00'); // Sin datos de precio
   },
 
   _renderRecientes(lista) {
@@ -65,11 +63,11 @@ const DashboardModule = {
                 </div>
               </td>
               <td style="padding:12px 8px">
-                <div class="fw-600" style="font-size:13px">${escapeHtml(p.nombre)}</div>
-                <div style="font-size:11px;color:var(--text-muted)">${escapeHtml(p.nombremarca)}</div>
+                <div class="fw-600" style="font-size:13px">${escapeHtml(p.codigo)}</div>
+                <div style="font-size:11px;color:var(--text-muted)">${escapeHtml(p.modelo || 'Sin modelo')}</div>
               </td>
               <td style="padding:12px 20px;text-align:right">
-                <span class="cell-precio" style="font-size:13px">S/. ${formatPrecio(p.precio)}</span>
+                <span class="badge-garantia" style="font-size:11px">${p.condicion}</span>
               </td>
             </tr>`).join('')}
         </tbody>
@@ -80,7 +78,8 @@ const DashboardModule = {
     const el = document.getElementById('chart-marcas');
     const counts = {};
     AppState.herramientas.forEach(p => {
-      counts[p.nombremarca] = (counts[p.nombremarca] || 0) + 1;
+      const marca = p.marca || 'Sin marca';
+      counts[marca] = (counts[marca] || 0) + 1;
     });
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
     const max = sorted[0]?.[1] || 1;

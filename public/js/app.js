@@ -15,8 +15,9 @@
    datos sin repetir peticiones al servidor.
 ════════════════════════════════════════════ */
 const AppState = {
-  marcas:    [],
+  marcas:       [],
   herramientas: [],
+  productos:    [], // Para compatibilidad con marcas.js
   deleteTarget: { type: null, id: null, name: null, onConfirm: null },
 };
 
