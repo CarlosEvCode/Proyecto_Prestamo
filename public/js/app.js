@@ -17,7 +17,7 @@
 const AppState = {
   marcas:       [],
   herramientas: [],
-  productos:    [], // Para compatibilidad con marcas.js
+  modelos:      [],
   deleteTarget: { type: null, id: null, name: null, onConfirm: null },
 };
 
@@ -87,8 +87,8 @@ const DeleteModal = {
    BADGES DE SIDEBAR
 ════════════════════════════════════════════ */
 function updateBadges() {
-  setText('badge-productos', AppState.productos.length);
-  setText('badge-marcas',    AppState.marcas.length);
+  setText('badge-herramientas', (AppState.herramientas || []).length);
+  setText('badge-marcas',    (AppState.marcas || []).length);
 }
 
 /* ════════════════════════════════════════════

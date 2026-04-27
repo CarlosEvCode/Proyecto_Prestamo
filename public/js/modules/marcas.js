@@ -27,6 +27,7 @@ const MarcasModule = {
   },
 
   _render(lista) {
+    lista = lista || [];
     setText('totalMarcasLabel', `${lista.length} marca(s) registrada(s)`);
     const tbody = document.getElementById('bodyMarcas');
 
@@ -39,7 +40,7 @@ const MarcasModule = {
 
     tbody.innerHTML = lista.map((m, i) => {
       
-      const total = AppState.productos.filter(p => p.id_marca == m.id_marca).length;
+      const total = (AppState.herramientas || []).filter(h => h.id_marca == m.id_marca).length;
       return `
         <tr>
           <td><span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted)">${String(i+1).padStart(2,'0')}</span></td>
@@ -51,7 +52,7 @@ const MarcasModule = {
               <span class="fw-600">${escapeHtml(m.nombre)}</span>
             </div>
           </td>
-          <td><span class="badge-garantia">${total} producto${total !== 1 ? 's' : ''}</span></td>
+          <td><span class="badge-garantia">${total} herramienta${total !== 1 ? 's' : ''}</span></td>
           <td>
             <button class="btn-action btn-action-edit"   onclick="MarcasModule.openEdit(${m.id_marca})"   title="Editar"><i class="bi bi-pencil-fill"></i></button>
             <button class="btn-action btn-action-delete" onclick="MarcasModule.confirmDel(${m.id_marca},'${escapeHtml(m.nombre)}')" title="Eliminar"><i class="bi bi-trash3-fill"></i></button>
@@ -62,7 +63,8 @@ const MarcasModule = {
 
   _filter() {
     const search = document.getElementById('searchMarca')?.value.toLowerCase() || '';
-    this._render(AppState.marcas.filter(m =>
+    const marcas = AppState.marcas || [];
+    this._render(marcas.filter(m =>
       m.nombre.toLowerCase().includes(search)
     ));
   },
