@@ -13,13 +13,9 @@ const DashboardModule = {
 
   async load() {
     try {
-      const [resP, resM] = await Promise.all([
-        http('/api/herramientas'),
-        http('/api/marcas'),
-      ]);
+      const resP = await http('/api/herramientas');
 
       AppState.herramientas = resP.data;
-      AppState.marcas    = resM.data;
       updateBadges();
 
       this._renderStats();
@@ -31,7 +27,6 @@ const DashboardModule = {
   _renderStats() {
     const ps    = AppState.herramientas || [];
     setText('stat-total-herramientas', ps.length);
-    setText('stat-total-marcas',    (AppState.marcas || []).length);
     setText('stat-valor-total',     'S/. 0.00');
     setText('stat-precio-promedio', 'S/. 0.00');
   },

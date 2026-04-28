@@ -23,11 +23,18 @@ CREATE TABLE IF NOT EXISTS roles (
     nombre VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+) ENGINE = InnoDB;
+
 CREATE TABLE IF NOT EXISTS modelos (
     id_modelo INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     id_marca INT,
-    FOREIGN KEY (id_marca) REFERENCES marcas (id_marca)
+    id_categoria INT,
+    FOREIGN KEY (id_marca) REFERENCES marcas (id_marca),
+    FOREIGN KEY (id_categoria) REFERENCES categorias (id_categoria)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS usuarios (

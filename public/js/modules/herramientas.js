@@ -19,7 +19,7 @@ const HerramientasModule = {
     try {
       const [resH, resM] = await Promise.all([
         http('/api/herramientas'),
-        http('/api/modelos')
+        http('/api/catalogos/modelos')
       ]);
       AppState.herramientas = resH.data;
       AppState.modelos = resM.data;

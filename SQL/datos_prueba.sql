@@ -91,23 +91,38 @@ VALUES ('Administrador'),
     ('Analista'),
     ('Coordinador');
 
+-- Tabla: categorias
+INSERT INTO
+    categorias (nombre)
+VALUES ('Herramientas Manuales'),
+    ('Herramientas Eléctricas'),
+    ('Herramientas Neumáticas'),
+    ('Equipos de Medición'),
+    ('Equipos de Seguridad'),
+    ('Herramientas de Corte'),
+    ('Herramientas de Sujeción'),
+    ('Herramientas de Jardinería'),
+    ('Equipos Especializados'),
+    ('Accesorios y Repuestos');
+
 -- ==================== TABLAS CON RELACIONES SIMPLES ====================
 
--- Tabla: modelos (depende de marcas)
+-- Tabla: modelos (depende de marcas y categorias)
 INSERT INTO
-    modelos (nombre, id_marca)
-VALUES ('Taladro TDH-500', 1),
-    ('Compresor C-1200', 2),
-    ('Sierra Circular SC-180', 3),
-    ('Martillo Neumático MN-15', 4),
-    ('Juego de Llaves JL-50', 5),
-    ('Tuerca de Impacto TI-800', 6),
-    ('Medidor Digital MD-100', 1),
-    ('Arnés de Seguridad AS-10', 2),
-    ('Cables de Poder CP-50', 3),
+    modelos (nombre, id_marca, id_categoria)
+VALUES ('Taladro TDH-500', 1, 2),
+    ('Compresor C-1200', 2, 3),
+    ('Sierra Circular SC-180', 3, 6),
+    ('Martillo Neumático MN-15', 4, 3),
+    ('Juego de Llaves JL-50', 5, 1),
+    ('Tuerca de Impacto TI-800', 6, 2),
+    ('Medidor Digital MD-100', 1, 4),
+    ('Arnés de Seguridad AS-10', 2, 5),
+    ('Cables de Poder CP-50', 3, 10),
     (
         'Destornillador de Precisión DP-25',
-        4
+        4,
+        1
     );
 
 -- Tabla: usuarios (depende de roles y usuarios misma tabla para created_by, updated_by)

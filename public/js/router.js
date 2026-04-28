@@ -27,15 +27,10 @@ const ROUTES = {
     view:   '/views/dashboard.html',   // HTML de la vista
     module: () => DashboardModule,     // Módulo JS que la controla
   },
-  marcas: {
-    title:  'Marcas',
-    view:   '/views/marcas.html',
-    module: () => MarcasModule,
-  },
-  modelos: {
-    title:  'Modelos',
-    view:   '/views/modelos.html',
-    module: () => ModelosModule,
+  catalogos: {
+    title:  'Catálogos',
+    view:   '/views/catalogos.html',
+    module: () => CatalogosModule,
   },
   herramientas: {
     title:  'Herramientas',

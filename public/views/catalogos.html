@@ -1,0 +1,193 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Catálogos</h1>
+    <p class="page-subtitle">Gestiona marcas y modelos</p>
+  </div>
+</div>
+
+<!-- ══ TABS ══ -->
+<div class="tabs-container">
+  <button role="tab" id="tabMarcas" class="tab-button active">
+    <i class="bi bi-bookmark-star"></i> Marcas
+  </button>
+  <button role="tab" id="tabModelos" class="tab-button">
+    <i class="bi bi-hammer"></i> Modelos
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL MARCAS
+══════════════════════════════════════════════════════════════ -->
+<div role="tabpanel" id="panelMarcas">
+  <div class="search-bar-row">
+    <div class="search-input-wrap">
+      <i class="bi bi-search search-icon"></i>
+      <input
+        type="text"
+        id="searchMarca"
+        class="search-input"
+        placeholder="Buscar marca…"
+      />
+    </div>
+    <button class="btn-primary-action" id="btnNuevaMarca">
+      <i class="bi bi-plus-lg"></i> Nueva Marca
+    </button>
+    <button class="btn-icon-outline" id="btnRefreshMarcas" title="Recargar">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+
+  <div class="card-panel">
+    <div class="table-responsive">
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Modelos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="bodyMarcas">
+          <tr>
+            <td colspan="4" class="text-center py-5">
+              <div class="spinner-custom"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <span class="text-muted text-sm" id="totalMarcasLabel">Cargando…</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PANEL MODELOS
+══════════════════════════════════════════════════════════════ -->
+<div role="tabpanel" id="panelModelos" class="d-none">
+  <div class="search-bar-row">
+    <div class="search-input-wrap">
+      <i class="bi bi-search search-icon"></i>
+      <input
+        type="text"
+        id="searchModelo"
+        class="search-input"
+        placeholder="Buscar modelo…"
+      />
+    </div>
+    <button class="btn-primary-action" id="btnNuevoModelo">
+      <i class="bi bi-plus-lg"></i> Nuevo Modelo
+    </button>
+    <button class="btn-icon-outline" id="btnRefreshModelos" title="Recargar">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+
+  <div class="card-panel">
+    <div class="table-responsive">
+      <table class="table-custom">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="bodyModelos">
+          <tr>
+            <td colspan="4" class="text-center py-5">
+              <div class="spinner-custom"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-footer">
+      <span class="text-muted text-sm" id="totalModelosLabel">Cargando…</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MODAL MARCA
+══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalMarcaOverlay">
+  <div class="modal-panel modal-sm">
+    <div class="modal-header-custom">
+      <div>
+        <div class="modal-title-custom" id="modalMarcaTitle">Nueva Marca</div>
+        <div class="modal-subtitle">Gestiona los datos de la marca</div>
+      </div>
+      <button class="btn-modal-close" id="btnCloseModalMarca">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <form id="formMarca" novalidate>
+        <input type="hidden" id="marcaId" />
+
+        <label class="form-label-custom">Nombre <span class="required">*</span></label>
+        <input type="text" id="mNombre" class="input-custom" placeholder="Ej: Sony, Canon, etc." />
+        <div class="error-message" id="err-mNombre"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-cancel" id="btnCancelMarca">Cancelar</button>
+      <button class="btn-primary" id="btnSaveMarca">
+        <i class="bi bi-check-lg"></i>
+        <span id="btnSaveMarcaText">Guardar</span>
+        <i class="spinner-small d-none" id="btnSaveMarcaSpinner"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MODAL MODELO
+══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalModeloOverlay">
+  <div class="modal-panel modal-sm">
+    <div class="modal-header-custom">
+      <div>
+        <div class="modal-title-custom" id="modalModeloTitle">Nuevo Modelo</div>
+        <div class="modal-subtitle">Gestiona los datos del modelo</div>
+      </div>
+      <button class="btn-modal-close" id="btnCloseModalModelo">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <form id="formModelo" novalidate>
+        <input type="hidden" id="modeloId" />
+
+        <label class="form-label-custom">Nombre <span class="required">*</span></label>
+        <input type="text" id="moNombre" class="input-custom" placeholder="Ej: A6400, Canon EOS, etc." />
+        <div class="error-message" id="err-moNombre"></div>
+
+        <label class="form-label-custom">Marca <span class="required">*</span></label>
+        <select id="moMarca" class="input-custom">
+          <option value="">-- Selecciona una marca --</option>
+        </select>
+        <div class="error-message" id="err-moMarca"></div>
+
+        <label class="form-label-custom">Categoría <span class="required">*</span></label>
+        <select id="moCategoria" class="input-custom">
+          <option value="">-- Selecciona una categoría --</option>
+        </select>
+        <div class="error-message" id="err-moCategoria"></div>
+      </form>
+    </div>
+    <div class="modal-footer-custom">
+      <button class="btn-cancel" id="btnCancelModelo">Cancelar</button>
+      <button class="btn-primary" id="btnSaveModelo">
+        <i class="bi bi-check-lg"></i>
+        <span id="btnSaveModeloText">Guardar</span>
+        <i class="spinner-small d-none" id="btnSaveModeloSpinner"></i>
+      </button>
+    </div>
+  </div>
+</div>

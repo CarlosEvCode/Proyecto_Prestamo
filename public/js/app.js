@@ -16,8 +16,9 @@
 ════════════════════════════════════════════ */
 const AppState = {
   marcas:       [],
-  herramientas: [],
   modelos:      [],
+  categorias:   [],
+  herramientas: [],
   deleteTarget: { type: null, id: null, name: null, onConfirm: null },
 };
 
@@ -61,7 +62,7 @@ const DeleteModal = {
 
   /**
    * Abre el modal de confirmación.
-   * @param {string}   type      - 'producto' | 'marca'
+   * @param {string}   type      - 'herramienta'
    * @param {number}   id
    * @param {string}   name
    * @param {Function} onConfirm - callback ejecutado al confirmar
@@ -69,8 +70,9 @@ const DeleteModal = {
   open(type, id, name, onConfirm) {
     AppState.deleteTarget = { type, id, name, onConfirm };
     const msgs = {
-      producto: `¿Eliminar el producto "<strong>${escapeHtml(name)}</strong>"? Esta acción no se puede deshacer.`,
+      herramienta: `¿Eliminar la herramienta "<strong>${escapeHtml(name)}</strong>"? Esta acción no se puede deshacer.`,
       marca:    `¿Eliminar la marca "<strong>${escapeHtml(name)}</strong>"? Solo se puede si no tiene productos asociados.`,
+      modelo:   `¿Eliminar el modelo "<strong>${escapeHtml(name)}</strong>"? Solo se puede si no tiene herramientas asociadas.`,
     };
     document.getElementById('deleteMessage').innerHTML = msgs[type] || '¿Confirmar eliminación?';
     openOverlay('modalDeleteOverlay');
@@ -88,8 +90,7 @@ const DeleteModal = {
 ════════════════════════════════════════════ */
 function updateBadges() {
   setText('badge-herramientas', (AppState.herramientas || []).length);
-  setText('badge-marcas',    (AppState.marcas || []).length);
-  setText('badge-modelos',   (AppState.modelos || []).length);
+  setText('badge-catalogos', (AppState.marcas || []).length + (AppState.modelos || []).length);
 }
 
 /* ════════════════════════════════════════════
