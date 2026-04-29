@@ -43,10 +43,20 @@ const Router = {
 
     const container = document.getElementById('pageContainer');
     
-    // Inyectar contenido básico y llamar al init del módulo
-    const mod = route.module();
-    if (mod && typeof mod.init === 'function') {
-        await mod.init();
+    try {
+        // 1. Cargar el HTML de la vista
+        const response = await fetch(route.view);
+        const html = await response.text();
+        container.innerHTML = html;
+
+        // 2. Inicializar el módulo JS
+        const mod = route.module();
+        if (mod && typeof mod.init === 'function') {
+            await mod.init();
+        }
+    } catch (error) {
+        console.error("Error al navegar:", error);
+        container.innerHTML = `<p class="text-danger">Error al cargar la página</p>`;
     }
 
     this.currentPage = page;
