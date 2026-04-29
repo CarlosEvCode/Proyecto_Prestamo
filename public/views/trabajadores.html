@@ -1,28 +1,39 @@
-<div class="container-fluid">
+<div class="container-fluid animate__animated animate__fadeIn">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Listado de Trabajadores</h2>
-        <button class="btn btn-primary">Nuevo Trabajador</button>
+        <div>
+            <h2 class="fw-bold mb-1">Personal / Trabajadores</h2>
+            <p class="text-muted text-sm">Gestión de operarios y personal autorizado para préstamos.</p>
+        </div>
+        <button class="btn btn-primary d-flex align-items-center gap-2">
+            <i class="bi bi-person-plus-fill"></i> Nuevo Trabajador
+        </button>
     </div>
-    
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>DNI</th>
-                        <th>Nombre Completo</th>
-                        <th>Cargo</th>
-                        <th>Área</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-trabajadores">
-                    <!-- Los datos se cargarán aquí con JS -->
-                    <tr>
-                        <td colspan="5" class="text-center">Cargando datos...</td>
-                    </tr>
-                </tbody>
-            </table>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">DNI / IDENTIFICACIÓN</th>
+                            <th>NOMBRE COMPLETO</th>
+                            <th>CARGO</th>
+                            <th>ÁREA TRABAJO</th>
+                            <th>TURNO</th>
+                            <th class="pe-4 text-end">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-trabajadores">
+                        <!-- Carga dinámica -->
+                        <tr>
+                            <td colspan="6" class="text-center py-5">
+                                <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
+                                <span class="ms-2 text-muted">Cargando personal...</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
