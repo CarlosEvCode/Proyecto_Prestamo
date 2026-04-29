@@ -2,202 +2,72 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
-// GET /api/trabajadores => Obtener todos los trabajadores
+// Listar todos con su área
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await db.query(
-      "SELECT t.*, a.nombre as nombre_area FROM trabajadores t LEFT JOIN areas a ON t.id_area = a.id_area ORDER BY t.nombre_completo ASC"
-    );
-    res.status(200).json({ success: true, data: rows });
+    const [rows] = await db.query(`
+      SELECT t.*, a.nombre as area_nombre 
+      FROM trabajadores t
+      LEFT JOIN areas a ON t.id_area = a.id_area
+      ORDER BY t.nombre_completo ASC
+    `);
+    res.json({ success: true, data: rows });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error al obtener los trabajadores" });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// GET /api/trabajadores/:id => Obtener trabajador por ID
+// Obtener uno por ID
 router.get("/:id", async (req, res) => {
   try {
-    const idTrabajador = req.params.id;
-    const [rows] = await db.query(
-      "SELECT t.*, a.nombre as nombre_area FROM trabajadores t LEFT JOIN areas a ON t.id_area = a.id_area WHERE t.id_trabajador = ?",
-      [idTrabajador]
-    );
-    if (rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Trabajador no encontrado" });
-    }
-    res.status(200).json({ success: true, data: rows[0] });
+    const [rows] = await db.query("SELECT * FROM trabajadores WHERE id_trabajador = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ success: false, message: "No encontrado" });
+    res.json({ success: true, data: rows[0] });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error al obtener el trabajador" });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// POST /api/trabajadores => Crear nuevo trabajador
+// Crear
 router.post("/", async (req, res) => {
   try {
     const { dni, nombre_completo, cargo, turno, id_area, created_by } = req.body;
+    
+    // Validar DNI único
+    const [exist] = await db.query("SELECT id_trabajador FROM trabajadores WHERE dni = ?", [dni]);
+    if (exist.length > 0) return res.status(400).json({ success: false, message: "El DNI ya existe" });
 
-    // Validaciones
-    if (!dni || dni.trim() === "") {
-      return res.status(400).json({
-        success: false,
-        message: "El DNI es obligatorio",
-      });
-    }
-
-    if (!nombre_completo || nombre_completo.trim() === "") {
-      return res.status(400).json({
-        success: false,
-        message: "El nombre completo es obligatorio",
-      });
-    }
-
-    // Verificar que el DNI sea único
-    const [dniCheck] = await db.query(
-      "SELECT * FROM trabajadores WHERE dni = ?",
-      [dni]
-    );
-    if (dniCheck.length > 0) {
-      return res.status(400).json({
-        success: false,
-        message: "El DNI ya está registrado",
-      });
-    }
-
-    // Insertar en la base de datos
     const [result] = await db.query(
-      "INSERT INTO trabajadores (dni, nombre_completo, cargo, turno, id_area, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [dni, nombre_completo, cargo, turno, id_area, created_by, created_by]
+      "INSERT INTO trabajadores (dni, nombre_completo, cargo, turno, id_area, created_by) VALUES (?, ?, ?, ?, ?, ?)",
+      [dni, nombre_completo, cargo, turno, id_area, created_by || null]
     );
-
-    res.status(201).json({
-      success: true,
-      message: "Trabajador creado correctamente",
-      data: {
-        id_trabajador: result.insertId,
-        dni,
-        nombre_completo,
-        cargo,
-        turno,
-        id_area,
-      },
-    });
+    res.status(201).json({ success: true, id: result.insertId });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error al crear el trabajador" });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// PUT /api/trabajadores/:id => Actualizar trabajador
+// Actualizar
 router.put("/:id", async (req, res) => {
   try {
-    const idTrabajador = req.params.id;
     const { dni, nombre_completo, cargo, turno, id_area, updated_by } = req.body;
-
-    // Validaciones
-    if (!nombre_completo || nombre_completo.trim() === "") {
-      return res.status(400).json({
-        success: false,
-        message: "El nombre completo es obligatorio",
-      });
-    }
-
-    // Verificar que el DNI sea único (excepto el del trabajador actual)
-    if (dni) {
-      const [dniCheck] = await db.query(
-        "SELECT * FROM trabajadores WHERE dni = ? AND id_trabajador != ?",
-        [dni, idTrabajador]
-      );
-      if (dniCheck.length > 0) {
-        return res.status(400).json({
-          success: false,
-          message: "El DNI ya está registrado",
-        });
-      }
-    }
-
-    // Verificar que el trabajador existe
-    const [trabajadorCheck] = await db.query(
-      "SELECT * FROM trabajadores WHERE id_trabajador = ?",
-      [idTrabajador]
-    );
-    if (trabajadorCheck.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Trabajador no encontrado" });
-    }
-
-    // Actualizar en la base de datos
     const [result] = await db.query(
-      "UPDATE trabajadores SET dni = ?, nombre_completo = ?, cargo = ?, turno = ?, id_area = ?, updated_by = ? WHERE id_trabajador = ?",
-      [dni, nombre_completo, cargo, turno, id_area, updated_by, idTrabajador]
+      "UPDATE trabajadores SET dni=?, nombre_completo=?, cargo=?, turno=?, id_area=?, updated_by=? WHERE id_trabajador=?",
+      [dni, nombre_completo, cargo, turno, id_area, updated_by || null, req.params.id]
     );
-
-    if (result.affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Trabajador no encontrado" });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Trabajador actualizado correctamente",
-      data: {
-        id_trabajador: idTrabajador,
-        dni,
-        nombre_completo,
-        cargo,
-        turno,
-        id_area,
-      },
-    });
+    res.json({ success: true, affected: result.affectedRows });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error al actualizar el trabajador" });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// DELETE /api/trabajadores/:id => Eliminar trabajador
+// Eliminar
 router.delete("/:id", async (req, res) => {
   try {
-    const idTrabajador = req.params.id;
-
-    // Verificar que el trabajador existe
-    const [trabajadorCheck] = await db.query(
-      "SELECT * FROM trabajadores WHERE id_trabajador = ?",
-      [idTrabajador]
-    );
-    if (trabajadorCheck.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Trabajador no encontrado" });
-    }
-
-    const [result] = await db.query(
-      "DELETE FROM trabajadores WHERE id_trabajador = ?",
-      [idTrabajador]
-    );
-
-    if (result.affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Trabajador no encontrado" });
-    }
-
-    res
-      .status(200)
-      .json({ success: true, message: "Trabajador eliminado correctamente" });
+    await db.query("DELETE FROM trabajadores WHERE id_trabajador = ?", [req.params.id]);
+    res.json({ success: true, message: "Eliminado" });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Error al eliminar el trabajador" });
+    res.status(500).json({ success: false, message: "No se puede eliminar: tiene registros relacionados" });
   }
 });
 

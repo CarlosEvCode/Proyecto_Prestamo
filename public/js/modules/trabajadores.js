@@ -1,19 +1,20 @@
-// Módulo de Herramientas - Estructura base
-const Herramientas = {
+// Módulo de Trabajadores - Estructura base
+const Trabajadores = {
     init: async () => {
-        console.log("Módulo Herramientas inicializado");
-        await Herramientas.render();
+        console.log("Módulo Trabajadores inicializado");
+        await Trabajadores.render();
     },
 
     render: async () => {
         const container = document.getElementById('pageContainer');
         container.innerHTML = `
             <div class="container-fluid">
-                <h2>Gestión de Herramientas</h2>
+                <h2>Gestión de Trabajadores</h2>
                 <p>Módulo listo para ser implementado.</p>
             </div>
         `;
     }
 };
 
-window.Herramientas = Herramientas;
+// Exportar para el router
+window.Trabajadores = Trabajadores;

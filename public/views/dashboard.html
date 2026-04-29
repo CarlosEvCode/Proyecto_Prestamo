@@ -1,28 +1,70 @@
-<div class="page-header">
-  <h1 class="page-title">Dashboard</h1>
-  <p class="page-subtitle">Resumen general del inventario</p>
-</div>
+<div class="container-fluid animate__animated animate__fadeIn">
+    <div class="row g-4 mb-5">
+        <!-- Card Herramientas -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card p-3 border-0 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon-box bg-accent-soft">
+                        <i class="bi bi-tools fs-4"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-muted text-sm mb-0">Total Herramientas</div>
+                        <h2 class="mb-0 fw-bold" id="stat-herramientas">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Trabajadores -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card p-3 border-0 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon-box bg-success-soft">
+                        <i class="bi bi-people-fill fs-4"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-muted text-sm mb-0">Personal Registrado</div>
+                        <h2 class="mb-0 fw-bold" id="stat-trabajadores">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="stats-grid">
-  <div class="stat-card">
-    <div class="stat-icon" style="--c: #6366f1">
-      <i class="bi bi-box-seam-fill"></i>
+        <!-- Card Préstamos -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <div class="card p-3 border-0 shadow-sm">
+                <div class="d-flex align-items-center">
+                    <div class="stat-icon-box bg-warning-soft">
+                        <i class="bi bi-arrow-left-right fs-4"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-muted text-sm mb-0">Préstamos Activos</div>
+                        <h2 class="mb-0 fw-bold" id="stat-prestamos">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="stat-value" id="stat-total-herramientas">—</div>
-    <div class="stat-label">Herramientas</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon" style="--c: #10b981">
-      <i class="bi bi-currency-dollar"></i>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 p-5 text-center bg-card shadow-sm">
+                <div class="py-4">
+                    <div class="brand-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2.5rem;">
+                        <i class="bi bi-lightning-charge-fill"></i>
+                    </div>
+                    <h1 class="fw-bold mb-3">Panel de Control StockPro</h1>
+                    <p class="text-muted mx-auto" style="max-width: 500px;">
+                        Bienvenido al sistema centralizado de gestión de inventario y personal. 
+                        Seleccione un módulo en el menú lateral para comenzar.
+                    </p>
+                    <div class="mt-4">
+                        <button class="btn btn-primary px-4 py-2" onclick="Router.navigateTo('herramientas')">
+                            Ver Inventario
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="stat-value" id="stat-valor-total">—</div>
-    <div class="stat-label">Valor Total</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-icon" style="--c: #ec4899">
-      <i class="bi bi-graph-up-arrow"></i>
-    </div>
-    <div class="stat-value" id="stat-precio-promedio">—</div>
-    <div class="stat-label">Precio Promedio</div>
-  </div>
 </div>

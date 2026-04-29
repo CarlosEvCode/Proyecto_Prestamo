@@ -1,33 +1,26 @@
-/**
- * modules/dashboard.js
- * Solo conoce el DOM de views/dashboard.html
- */
+const Dashboard = {
+    init: async () => {
+        // Cargar primero el HTML (el router lo hace, pero aquí aseguramos elementos)
+        await Dashboard.loadStats();
+    },
 
-'use strict';
+    loadStats: async () => {
+        try {
+            const response = await fetch('/api/dashboard/stats');
+            const result = await response.json();
 
-const DashboardModule = {
-
-  async init() {
-    await this.load();
-  },
-
-  async load() {
-    try {
-      const resP = await http('/api/herramientas');
-
-      AppState.herramientas = resP.data;
-      updateBadges();
-
-      this._renderStats();
-    } catch (e) {
-      showToast('Error al cargar dashboard: ' + e.message, 'error');
+            if (result.success) {
+                const { totalHerramientas, totalTrabajadores, prestamosActivos } = result.data;
+                
+                // Actualizar contadores en la vista
+                document.getElementById('stat-herramientas').innerText = totalHerramientas;
+                document.getElementById('stat-trabajadores').innerText = totalTrabajadores;
+                document.getElementById('stat-prestamos').innerText = prestamosActivos;
+            }
+        } catch (error) {
+            console.error("Error cargando estadísticas:", error);
+        }
     }
-  },
-
-  _renderStats() {
-    const ps    = AppState.herramientas || [];
-    setText('stat-total-herramientas', ps.length);
-    setText('stat-valor-total',     'S/. 0.00');
-    setText('stat-precio-promedio', 'S/. 0.00');
-  },
 };
+
+window.Dashboard = Dashboard;
