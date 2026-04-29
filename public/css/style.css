@@ -215,7 +215,32 @@ h1, h2, h3, h4, h5, h6 {
 .text-xs { font-size: 0.75rem; }
 .fw-600 { font-weight: 600; }
 
-/* Scrollbar Custom */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-dark); }
-::-webkit-scrollbar-thumb { background: #2a2d3e; border-radius: 10px; }
+/* ══════════════════════════════════════════
+   CUSTOM TABS
+   ══════════════════════════════════════════ */
+.nav-link-custom {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.nav-link-custom:hover {
+    color: var(--text-main);
+    border-color: var(--accent);
+}
+
+.nav-link-custom.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 15px rgba(61, 90, 254, 0.3);
+}
+
+.nav-item-tab {
+    list-style: none;
+}

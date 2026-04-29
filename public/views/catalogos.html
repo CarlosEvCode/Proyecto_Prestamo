@@ -1,193 +1,57 @@
-<div class="page-header">
-  <div>
-    <h1 class="page-title">Catálogos</h1>
-    <p class="page-subtitle">Gestiona marcas y modelos</p>
-  </div>
-</div>
+<div class="container-fluid animate__animated animate__fadeIn">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Configuración de Catálogos</h2>
+            <p class="text-muted text-sm">Gestión de tablas maestras del sistema.</p>
+        </div>
+    </div>
 
-<!-- ══ TABS ══ -->
-<div class="tabs-container">
-  <button role="tab" id="tabMarcas" class="tab-button active">
-    <i class="bi bi-bookmark-star"></i> Marcas
-  </button>
-  <button role="tab" id="tabModelos" class="tab-button">
-    <i class="bi bi-hammer"></i> Modelos
-  </button>
-</div>
+    <!-- Navegación de Pestañas -->
+    <ul class="nav nav-tabs border-0 mb-4 gap-2" id="catalogTabs" role="tablist">
+        <li class="nav-item-tab" role="presentation">
+            <button class="nav-link-custom active" id="areas-tab" data-bs-toggle="tab" data-bs-target="#areas-pane" type="button" role="tab" onclick="Catalogos.switchTab('areas')">
+                <i class="bi bi-geo-alt me-2"></i>Áreas
+            </button>
+        </li>
+        <li class="nav-item-tab" role="presentation">
+            <button class="nav-link-custom" id="marcas-tab" data-bs-toggle="tab" data-bs-target="#marcas-pane" type="button" role="tab" onclick="Catalogos.switchTab('marcas')">
+                <i class="bi bi-tag me-2"></i>Marcas
+            </button>
+        </li>
+        <li class="nav-item-tab" role="presentation">
+            <button class="nav-link-custom" id="categorias-tab" data-bs-toggle="tab" data-bs-target="#categorias-pane" type="button" role="tab" onclick="Catalogos.switchTab('categorias')">
+                <i class="bi bi-grid me-2"></i>Categorías
+            </button>
+        </li>
+        <li class="nav-item-tab" role="presentation">
+            <button class="nav-link-custom" id="modelos-tab" data-bs-toggle="tab" data-bs-target="#modelos-pane" type="button" role="tab" onclick="Catalogos.switchTab('modelos')">
+                <i class="bi bi-layers me-2"></i>Modelos
+            </button>
+        </li>
+    </ul>
 
-<!-- ══════════════════════════════════════════════════════════════
-     PANEL MARCAS
-══════════════════════════════════════════════════════════════ -->
-<div role="tabpanel" id="panelMarcas">
-  <div class="search-bar-row">
-    <div class="search-input-wrap">
-      <i class="bi bi-search search-icon"></i>
-      <input
-        type="text"
-        id="searchMarca"
-        class="search-input"
-        placeholder="Buscar marca…"
-      />
+    <!-- Contenido de las Pestañas -->
+    <div class="tab-content" id="catalogTabsContent">
+        <!-- Panel Genérico para todas las tablas -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0" id="catalog-title">Listado de Áreas</h5>
+                <button class="btn btn-primary btn-sm px-3" onclick="Catalogos.openModal()">
+                    <i class="bi bi-plus-lg me-1"></i> Agregar
+                </button>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead id="catalog-thead">
+                            <!-- Se carga dinámicamente -->
+                        </thead>
+                        <tbody id="catalog-tbody">
+                            <!-- Se carga dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    <button class="btn-primary-action" id="btnNuevaMarca">
-      <i class="bi bi-plus-lg"></i> Nueva Marca
-    </button>
-    <button class="btn-icon-outline" id="btnRefreshMarcas" title="Recargar">
-      <i class="bi bi-arrow-clockwise"></i>
-    </button>
-  </div>
-
-  <div class="card-panel">
-    <div class="table-responsive">
-      <table class="table-custom">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Modelos</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="bodyMarcas">
-          <tr>
-            <td colspan="4" class="text-center py-5">
-              <div class="spinner-custom"></div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-footer">
-      <span class="text-muted text-sm" id="totalMarcasLabel">Cargando…</span>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════════
-     PANEL MODELOS
-══════════════════════════════════════════════════════════════ -->
-<div role="tabpanel" id="panelModelos" class="d-none">
-  <div class="search-bar-row">
-    <div class="search-input-wrap">
-      <i class="bi bi-search search-icon"></i>
-      <input
-        type="text"
-        id="searchModelo"
-        class="search-input"
-        placeholder="Buscar modelo…"
-      />
-    </div>
-    <button class="btn-primary-action" id="btnNuevoModelo">
-      <i class="bi bi-plus-lg"></i> Nuevo Modelo
-    </button>
-    <button class="btn-icon-outline" id="btnRefreshModelos" title="Recargar">
-      <i class="bi bi-arrow-clockwise"></i>
-    </button>
-  </div>
-
-  <div class="card-panel">
-    <div class="table-responsive">
-      <table class="table-custom">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody id="bodyModelos">
-          <tr>
-            <td colspan="4" class="text-center py-5">
-              <div class="spinner-custom"></div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-footer">
-      <span class="text-muted text-sm" id="totalModelosLabel">Cargando…</span>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════════
-     MODAL MARCA
-══════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modalMarcaOverlay">
-  <div class="modal-panel modal-sm">
-    <div class="modal-header-custom">
-      <div>
-        <div class="modal-title-custom" id="modalMarcaTitle">Nueva Marca</div>
-        <div class="modal-subtitle">Gestiona los datos de la marca</div>
-      </div>
-      <button class="btn-modal-close" id="btnCloseModalMarca">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    <div class="modal-body-custom">
-      <form id="formMarca" novalidate>
-        <input type="hidden" id="marcaId" />
-
-        <label class="form-label-custom">Nombre <span class="required">*</span></label>
-        <input type="text" id="mNombre" class="input-custom" placeholder="Ej: Sony, Canon, etc." />
-        <div class="error-message" id="err-mNombre"></div>
-      </form>
-    </div>
-    <div class="modal-footer-custom">
-      <button class="btn-cancel" id="btnCancelMarca">Cancelar</button>
-      <button class="btn-primary" id="btnSaveMarca">
-        <i class="bi bi-check-lg"></i>
-        <span id="btnSaveMarcaText">Guardar</span>
-        <i class="spinner-small d-none" id="btnSaveMarcaSpinner"></i>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════════
-     MODAL MODELO
-══════════════════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="modalModeloOverlay">
-  <div class="modal-panel modal-sm">
-    <div class="modal-header-custom">
-      <div>
-        <div class="modal-title-custom" id="modalModeloTitle">Nuevo Modelo</div>
-        <div class="modal-subtitle">Gestiona los datos del modelo</div>
-      </div>
-      <button class="btn-modal-close" id="btnCloseModalModelo">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-    <div class="modal-body-custom">
-      <form id="formModelo" novalidate>
-        <input type="hidden" id="modeloId" />
-
-        <label class="form-label-custom">Nombre <span class="required">*</span></label>
-        <input type="text" id="moNombre" class="input-custom" placeholder="Ej: A6400, Canon EOS, etc." />
-        <div class="error-message" id="err-moNombre"></div>
-
-        <label class="form-label-custom">Marca <span class="required">*</span></label>
-        <select id="moMarca" class="input-custom">
-          <option value="">-- Selecciona una marca --</option>
-        </select>
-        <div class="error-message" id="err-moMarca"></div>
-
-        <label class="form-label-custom">Categoría <span class="required">*</span></label>
-        <select id="moCategoria" class="input-custom">
-          <option value="">-- Selecciona una categoría --</option>
-        </select>
-        <div class="error-message" id="err-moCategoria"></div>
-      </form>
-    </div>
-    <div class="modal-footer-custom">
-      <button class="btn-cancel" id="btnCancelModelo">Cancelar</button>
-      <button class="btn-primary" id="btnSaveModelo">
-        <i class="bi bi-check-lg"></i>
-        <span id="btnSaveModeloText">Guardar</span>
-        <i class="spinner-small d-none" id="btnSaveModeloSpinner"></i>
-      </button>
-    </div>
-  </div>
 </div>
