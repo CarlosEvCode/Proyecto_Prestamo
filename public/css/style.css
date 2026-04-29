@@ -22,6 +22,11 @@ body {
     overflow-x: hidden;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+    font-weight: 700;
+}
+
 /* ══════════════════════════════════════════
    SIDEBAR
    ══════════════════════════════════════════ */
@@ -150,6 +155,7 @@ body {
 .bg-accent-soft { background: rgba(61, 90, 254, 0.1); color: var(--accent); }
 .bg-success-soft { background: rgba(0, 230, 118, 0.1); color: var(--success); }
 .bg-warning-soft { background: rgba(255, 234, 0, 0.1); color: var(--warning); }
+.bg-danger-soft { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
 
 /* Buttons Custom */
 .btn-primary {
@@ -163,6 +169,51 @@ body {
 .btn-primary:hover {
     background-color: var(--accent-hover);
 }
+
+/* ══════════════════════════════════════════
+   TABLAS OSCURAS
+   ══════════════════════════════════════════ */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--text-main);
+    --bs-table-border-color: var(--border-color);
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.02);
+    --bs-table-hover-color: var(--text-main);
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+}
+
+.table tbody td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.table-responsive {
+    border: none;
+}
+
+/* Ajustes adicionales para Bootstrap */
+.card-body {
+    color: var(--text-main);
+}
+
+.bg-dark {
+    background-color: var(--bg-sidebar) !important;
+}
+
+.text-xs { font-size: 0.75rem; }
+.fw-600 { font-weight: 600; }
 
 /* Scrollbar Custom */
 ::-webkit-scrollbar { width: 6px; }
