@@ -11,22 +11,53 @@
     </button>
   </div>
 
+  <!-- Búsqueda y Filtros -->
+  <div class="mb-4 d-flex gap-3">
+    <div style="flex: 1">
+      <input
+        type="text"
+        id="searchHerramientas"
+        class="form-control"
+        placeholder="Buscar por código, modelo, marca o ubicación..."
+      />
+    </div>
+    <select id="filterCondicion" class="form-select" style="width: 180px">
+      <option value="">Condiciones</option>
+      <option value="bueno">Bueno</option>
+      <option value="regular">Regular</option>
+      <option value="malo">Malo</option>
+    </select>
+    <select id="filterEstado" class="form-select" style="width: 150px">
+      <option value="">Estados</option>
+      <option value="activo">Activo</option>
+      <option value="inactivo">Inactivo</option>
+    </select>
+    <button id="btnRefreshHerramientas" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+
+  <!-- Contador -->
+  <div class="mb-3 text-muted text-sm">
+    <span id="totalHerramientasLabel">0 herramienta(s) encontrada(s)</span>
+  </div>
+
   <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead>
             <tr>
-              <th class="ps-4">CÓDIGO</th>
+              <th class="ps-4">#</th>
+              <th>CÓDIGO</th>
               <th>HERRAMIENTA / MODELO</th>
-              <th>MARCA</th>
               <th>CONDICIÓN</th>
               <th>UBICACIÓN</th>
               <th class="text-center">ESTADO</th>
               <th class="pe-4 text-end">ACCIONES</th>
             </tr>
           </thead>
-          <tbody id="tabla-herramientas">
+          <tbody id="bodyHerramientas">
             <!-- Se cargará dinámicamente -->
             <tr>
               <td colspan="7" class="text-center py-5">

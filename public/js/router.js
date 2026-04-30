@@ -14,7 +14,7 @@ const ROUTES = {
   herramientas: {
     title:  'Herramientas',
     view:   '/views/herramientas.html',
-    module: () => Herramientas,
+    module: () => HerramientasModule,
   },
   prestamos: {
     title:  'Préstamos',
