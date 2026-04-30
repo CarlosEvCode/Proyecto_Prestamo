@@ -109,16 +109,44 @@ VALUES ('Herramientas Manuales'),
 
 -- Tabla: modelos (depende de marcas y categorias)
 INSERT INTO
-    modelos (nombre, id_marca, id_categoria)
+    modelos (
+        nombre,
+        id_marca,
+        id_categoria
+    )
 VALUES ('Taladro TDH-500', 1, 2),
     ('Compresor C-1200', 2, 3),
-    ('Sierra Circular SC-180', 3, 6),
-    ('Martillo Neumático MN-15', 4, 3),
+    (
+        'Sierra Circular SC-180',
+        3,
+        6
+    ),
+    (
+        'Martillo Neumático MN-15',
+        4,
+        3
+    ),
     ('Juego de Llaves JL-50', 5, 1),
-    ('Tuerca de Impacto TI-800', 6, 2),
-    ('Medidor Digital MD-100', 1, 4),
-    ('Arnés de Seguridad AS-10', 2, 5),
-    ('Cables de Poder CP-50', 3, 10),
+    (
+        'Tuerca de Impacto TI-800',
+        6,
+        2
+    ),
+    (
+        'Medidor Digital MD-100',
+        1,
+        4
+    ),
+    (
+        'Arnés de Seguridad AS-10',
+        2,
+        5
+    ),
+    (
+        'Cables de Poder CP-50',
+        3,
+        10
+    ),
     (
         'Destornillador de Precisión DP-25',
         4,
@@ -534,10 +562,11 @@ VALUES (1, 1, 450.00, 1, 1),
 
 -- ==================== TABLAS DE PRÉSTAMOS ====================
 
--- Tabla: prestamos (depende de trabajadores y usuarios)
+-- Tabla: prestamos (depende de trabajadores, herramientas y usuarios)
 INSERT INTO
     prestamos (
         id_trabajador,
+        id_herramienta,
         id_usuario_entrega,
         id_usuario_recibe,
         fecha_salida,
@@ -549,6 +578,7 @@ INSERT INTO
         updated_by
     )
 VALUES (
+        1,
         1,
         1,
         2,
@@ -563,6 +593,7 @@ VALUES (
     (
         2,
         2,
+        2,
         3,
         '2025-04-02 09:30:00',
         '2025-04-03 17:00:00',
@@ -573,6 +604,7 @@ VALUES (
         1
     ),
     (
+        3,
         3,
         3,
         4,
@@ -587,6 +619,7 @@ VALUES (
     (
         4,
         4,
+        4,
         5,
         '2025-04-04 08:15:00',
         '2025-04-05 17:00:00',
@@ -598,6 +631,7 @@ VALUES (
     ),
     (
         5,
+        6,
         5,
         6,
         '2025-04-05 11:00:00',
@@ -610,6 +644,7 @@ VALUES (
     ),
     (
         6,
+        7,
         6,
         7,
         '2025-03-28 07:45:00',
@@ -622,6 +657,7 @@ VALUES (
     ),
     (
         7,
+        8,
         7,
         8,
         '2025-04-06 09:00:00',
@@ -634,6 +670,7 @@ VALUES (
     ),
     (
         8,
+        9,
         8,
         9,
         '2025-04-07 10:30:00',
@@ -646,6 +683,7 @@ VALUES (
     ),
     (
         9,
+        10,
         9,
         10,
         '2025-04-08 08:00:00',
@@ -658,6 +696,7 @@ VALUES (
     ),
     (
         10,
+        1,
         10,
         1,
         '2025-04-09 14:00:00',

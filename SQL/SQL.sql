@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS detalle_compra (
 CREATE TABLE IF NOT EXISTS prestamos (
     id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
     id_trabajador INT,
+    id_herramienta INT,
     id_usuario_entrega INT,
     id_usuario_recibe INT,
     fecha_salida DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -136,6 +137,7 @@ CREATE TABLE IF NOT EXISTS prestamos (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     updated_by INT,
     FOREIGN KEY (id_trabajador) REFERENCES trabajadores (id_trabajador),
+    FOREIGN KEY (id_herramienta) REFERENCES herramientas (id_herramienta),
     FOREIGN KEY (id_usuario_entrega) REFERENCES usuarios (id_usuario),
     FOREIGN KEY (id_usuario_recibe) REFERENCES usuarios (id_usuario),
     FOREIGN KEY (created_by) REFERENCES usuarios (id_usuario),
