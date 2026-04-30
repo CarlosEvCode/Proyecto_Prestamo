@@ -42,14 +42,13 @@ router.get("/categorias", async (req, res) => {
   }
 });
 
-// --- MODELOS (con su Marca y Categoría) ---
+// --- MODELOS (con su Marca) ---
 router.get("/modelos", async (req, res) => {
   try {
     const [rows] = await db.query(`
-      SELECT m.*, ma.nombre as marca_nombre, c.nombre as categoria_nombre 
+      SELECT m.*, ma.nombre as marca_nombre
       FROM modelos m
-      JOIN marcas ma ON m.id_marca = ma.id_marca
-      JOIN categorias c ON m.id_categoria = c.id_categoria
+      LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
       ORDER BY m.nombre ASC
     `);
     res.json({ success: true, data: rows });
