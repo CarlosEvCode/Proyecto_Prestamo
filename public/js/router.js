@@ -16,6 +16,11 @@ const ROUTES = {
     view:   '/views/herramientas.html',
     module: () => Herramientas,
   },
+  prestamos: {
+    title:  'Préstamos',
+    view:   '/views/prestamos.html',
+    module: () => Prestamos,
+  },
   trabajadores: {
     title:  'Trabajadores',
     view:   '/views/trabajadores.html',
