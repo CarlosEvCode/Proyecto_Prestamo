@@ -86,119 +86,69 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════ MODAL MARCAS ════════════════════════════════════════════ -->
-<div class="modal-overlay-container" id="modalMarcasOverlay">
+<!-- ════════════════════════════════════════════ MODAL CATALOGO (MARCA O MODELO) ════════════════════════════════════════════ -->
+<div class="modal-overlay-container" id="modalCatalogosOverlay">
   <div class="modal-overlay-content">
     <div class="modal-header-custom">
       <div>
-        <h5 id="modalMarcasTitle">Nueva Marca</h5>
-        <small class="text-muted">Agregar o editar marca</small>
+        <h5 id="modalCatalogTitle">Nuevo Registro</h5>
+        <small class="text-muted" id="modalCatalogSubtitle">Agregar o editar</small>
       </div>
-      <button type="button" class="btn-close" id="btnCloseMarcas">
+      <button type="button" class="btn-close" id="btnCloseCatalogo">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
 
     <div class="modal-body-custom">
-      <form id="formMarcas" novalidate>
-        <input type="hidden" id="marcaId" />
+      <form id="formCatalogo" novalidate>
+        <input type="hidden" id="catalogId" />
 
         <div class="mb-3">
-          <label for="mNombre" class="form-label"
+          <label for="cNombre" class="form-label"
             >Nombre <span class="text-danger">*</span></label
           >
           <input
             type="text"
-            id="mNombre"
+            id="cNombre"
             class="form-control"
-            placeholder="Ingrese nombre de la marca"
+            placeholder="Ingrese nombre"
             maxlength="100"
             required
           />
-          <div class="invalid-feedback d-block" id="err-mNombre"></div>
-        </div>
-      </form>
-    </div>
-
-    <div class="modal-footer-custom">
-      <button type="button" class="btn btn-secondary" id="btnCancelMarcas">
-        Cancelar
-      </button>
-      <button type="button" class="btn btn-primary" id="btnSaveMarcas">
-        <span id="btnSaveMarcasText"
-          ><i class="bi bi-check-lg me-1"></i>Guardar</span
-        >
-        <span id="btnSaveMarcasSpinner" class="d-none"
-          ><div class="spinner-border spinner-border-sm"></div
-        ></span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════ MODAL MODELOS ════════════════════════════════════════════ -->
-<div class="modal-overlay-container" id="modalModelosOverlay">
-  <div class="modal-overlay-content">
-    <div class="modal-header-custom">
-      <div>
-        <h5 id="modalModelosTitle">Nuevo Modelo</h5>
-        <small class="text-muted">Agregar o editar modelo</small>
-      </div>
-      <button type="button" class="btn-close" id="btnCloseModelos">
-        <i class="bi bi-x-lg"></i>
-      </button>
-    </div>
-
-    <div class="modal-body-custom">
-      <form id="formModelos" novalidate>
-        <input type="hidden" id="modeloId" />
-
-        <div class="mb-3">
-          <label for="moNombre" class="form-label"
-            >Nombre <span class="text-danger">*</span></label
-          >
-          <input
-            type="text"
-            id="moNombre"
-            class="form-control"
-            placeholder="Ingrese nombre del modelo"
-            maxlength="100"
-            required
-          />
-          <div class="invalid-feedback d-block" id="err-moNombre"></div>
+          <div class="invalid-feedback d-block" id="err-cNombre"></div>
         </div>
 
-        <div class="mb-3">
-          <label for="moMarca" class="form-label"
+        <div class="mb-3" id="fieldMarca" style="display: none;">
+          <label for="cMarca" class="form-label"
             >Marca <span class="text-danger">*</span></label
           >
-          <select id="moMarca" class="form-select" required>
+          <select id="cMarca" class="form-select" required>
             <option value="">-- Seleccionar Marca --</option>
           </select>
-          <div class="invalid-feedback d-block" id="err-moMarca"></div>
+          <div class="invalid-feedback d-block" id="err-cMarca"></div>
         </div>
 
-        <div class="mb-3">
-          <label for="moCategoria" class="form-label"
+        <div class="mb-3" id="fieldCategoria" style="display: none;">
+          <label for="cCategoria" class="form-label"
             >Categoría <span class="text-danger">*</span></label
           >
-          <select id="moCategoria" class="form-select" required>
+          <select id="cCategoria" class="form-select" required>
             <option value="">-- Seleccionar Categoría --</option>
           </select>
-          <div class="invalid-feedback d-block" id="err-moCategoria"></div>
+          <div class="invalid-feedback d-block" id="err-cCategoria"></div>
         </div>
       </form>
     </div>
 
     <div class="modal-footer-custom">
-      <button type="button" class="btn btn-secondary" id="btnCancelModelos">
+      <button type="button" class="btn btn-secondary" id="btnCancelCatalogo">
         Cancelar
       </button>
-      <button type="button" class="btn btn-primary" id="btnSaveModelos">
-        <span id="btnSaveModelosText"
+      <button type="button" class="btn btn-primary" id="btnSaveCatalogo">
+        <span id="btnSaveCatalogoText"
           ><i class="bi bi-check-lg me-1"></i>Guardar</span
         >
-        <span id="btnSaveModelosSpinner" class="d-none"
+        <span id="btnSaveCatalogoSpinner" class="d-none"
           ><div class="spinner-border spinner-border-sm"></div
         ></span>
       </button>

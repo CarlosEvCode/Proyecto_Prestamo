@@ -281,4 +281,36 @@ router.delete("/modelos/:id", async (req, res) => {
   }
 });
 
+/* Get categorias = obtener todas las categorias */
+router.get("/categorias", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM categorias ORDER BY nombre ASC");
+    res.status(200).json({ success: true, data: rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error al obtener categorías" });
+  }
+});
+
+/* Get categorias por id */
+router.get("/categorias/:id", async (req, res) => {
+  try {
+    const idBuscado = req.params.id;
+    const [rows] = await db.query("SELECT * FROM categorias WHERE id_categoria = ?", [
+      idBuscado,
+    ]);
+
+    if (rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Categoría no encontrada" });
+    }
+    res.status(200).json({ success: true, data: rows[0] });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error al obtener la categoría" });
+  }
+});
+
 module.exports = router;
