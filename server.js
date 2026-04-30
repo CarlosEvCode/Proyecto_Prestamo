@@ -17,8 +17,8 @@ app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/catalogos', require('./routes/catalogos'));
 app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/trabajadores', require('./routes/trabajadores'));
-/* app.use('/api/usuarios', require('./routes/usuarios'));
-app.use('/api/herramientas', require('./routes/herramientas'));
+ app.use('/api/usuarios', require('./routes/usuarios'));
+/*app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/prestamos', require('./routes/prestamos'));
 app.use('/api/compras', require('./routes/compras')); */
 
