@@ -107,50 +107,21 @@ VALUES ('Herramientas Manuales'),
 
 -- ==================== TABLAS CON RELACIONES SIMPLES ====================
 
--- Tabla: modelos (depende de marcas y categorias)
+-- Tabla: modelos (depende de marcas)
 INSERT INTO
-    modelos (
-        nombre,
-        id_marca,
-        id_categoria
-    )
-VALUES ('Taladro TDH-500', 1, 2),
-    ('Compresor C-1200', 2, 3),
-    (
-        'Sierra Circular SC-180',
-        3,
-        6
-    ),
-    (
-        'Martillo Neumático MN-15',
-        4,
-        3
-    ),
-    ('Juego de Llaves JL-50', 5, 1),
-    (
-        'Tuerca de Impacto TI-800',
-        6,
-        2
-    ),
-    (
-        'Medidor Digital MD-100',
-        1,
-        4
-    ),
-    (
-        'Arnés de Seguridad AS-10',
-        2,
-        5
-    ),
-    (
-        'Cables de Poder CP-50',
-        3,
-        10
-    ),
+    modelos (nombre, id_marca)
+VALUES ('Taladro TDH-500', 1),
+    ('Compresor C-1200', 2),
+    ('Sierra Circular SC-180', 3),
+    ('Martillo Neumático MN-15', 4),
+    ('Juego de Llaves JL-50', 5),
+    ('Tuerca de Impacto TI-800', 6),
+    ('Medidor Digital MD-100', 1),
+    ('Arnés de Seguridad AS-10', 2),
+    ('Cables de Poder CP-50', 3),
     (
         'Destornillador de Precisión DP-25',
-        4,
-        1
+        4
     );
 
 -- Tabla: usuarios (depende de roles y usuarios misma tabla para created_by, updated_by)

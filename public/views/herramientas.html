@@ -74,3 +74,108 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Herramienta -->
+<div class="modal-overlay-container" id="modalHerramientaOverlay">
+  <div class="modal-overlay-content">
+    <div class="modal-header-custom">
+      <div>
+        <h5 id="modalHerramientaTitle">Nueva Herramienta</h5>
+        <small class="text-muted">Detalles del inventario</small>
+      </div>
+      <button class="btn-modal-close" id="btnCloseModalHerramienta">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-custom">
+      <form id="formHerramienta" novalidate>
+        <input type="hidden" id="herramientaId" />
+
+        <!-- Código y Número de Serie -->
+        <div class="mb-3">
+          <label for="hCodigo" class="form-label">
+            Código <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="hCodigo"
+            class="form-control"
+            placeholder="Ej: HER-001"
+            required
+          />
+          <div class="invalid-feedback d-block" id="err-hCodigo"></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="hNumeroSerie" class="form-label">Número de Serie</label>
+          <input
+            type="text"
+            id="hNumeroSerie"
+            class="form-control"
+            placeholder="Ej: SN-001-2025"
+          />
+        </div>
+
+        <!-- Modelo y Marca -->
+        <div class="mb-3">
+          <label for="hModelo" class="form-label">
+            Modelo <span class="text-danger">*</span>
+          </label>
+          <select id="hModelo" class="form-select" required>
+            <option value="">-- Selecciona un modelo --</option>
+          </select>
+          <div class="invalid-feedback d-block" id="err-hModelo"></div>
+        </div>
+
+        <!-- Condición -->
+        <div class="mb-3">
+          <label for="hCondicion" class="form-label">
+            Condición <span class="text-danger">*</span>
+          </label>
+          <select id="hCondicion" class="form-select" required>
+            <option value="">-- Selecciona una condición --</option>
+            <option value="bueno">Bueno</option>
+            <option value="regular">Regular</option>
+            <option value="malo">Malo</option>
+          </select>
+          <div class="invalid-feedback d-block" id="err-hCondicion"></div>
+        </div>
+
+        <!-- Ubicación -->
+        <div class="mb-3">
+          <label for="hUbicacion" class="form-label">Ubicación</label>
+          <input
+            type="text"
+            id="hUbicacion"
+            class="form-control"
+            placeholder="Ej: Almacén A"
+          />
+        </div>
+
+        <!-- Estado (Activo/Inactivo) -->
+        <div class="mb-3">
+          <label for="hActivo" class="form-label">Estado</label>
+          <select id="hActivo" class="form-select">
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer-custom">
+      <button type="button" class="btn btn-secondary" id="btnCancelHerramienta">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-primary" id="btnSaveHerramienta">
+        <span id="btnSaveHerramientaText">
+          <i class="bi bi-check-lg me-1"></i>Guardar
+        </span>
+        <span id="btnSaveHerramientaSpinner" class="d-none">
+          <div class="spinner-border spinner-border-sm"></div>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
