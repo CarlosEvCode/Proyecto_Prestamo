@@ -1,38 +1,160 @@
 <div class="container-fluid animate__animated animate__fadeIn">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold mb-1">Registro de Préstamos</h2>
-            <p class="text-muted text-sm">Seguimiento de herramientas entregadas al personal.</p>
-        </div>
-        <button class="btn btn-primary d-flex align-items-center gap-2">
-            <i class="bi bi-send-fill"></i> Nuevo Préstamo
-        </button>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Registro de Préstamos</h2>
+      <p class="text-muted text-sm">
+        Seguimiento de herramientas entregadas al personal.
+      </p>
+    </div>
+    <button
+      class="btn btn-primary d-flex align-items-center gap-2"
+      id="btnNuevoPrestamo"
+    >
+      <i class="bi bi-plus-lg"></i> Nuevo Préstamo
+    </button>
+  </div>
+
+  <div class="d-flex gap-2 mb-3">
+    <div class="flex-grow-1">
+      <input
+        type="text"
+        id="searchPrestamo"
+        class="form-control"
+        placeholder="Buscar por trabajador o motivo…"
+      />
+    </div>
+    <select id="filterEstado" class="form-select" style="max-width: 180px">
+      <option value="">Todos los estados</option>
+      <option value="activo">Activo</option>
+      <option value="devuelto">Devuelto</option>
+      <option value="vencido">Vencido</option>
+    </select>
+    <button
+      class="btn btn-outline-secondary"
+      id="btnRefreshPrestamos"
+      title="Recargar"
+    >
+      <i class="bi bi-arrow-clockwise"></i>
+    </button>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th class="ps-4">#</th>
+              <th>TRABAJADOR</th>
+              <th>FECHA SALIDA</th>
+              <th>DEVOLUCIONES</th>
+              <th class="text-center">ESTADO</th>
+              <th class="pe-4 text-end">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody id="bodyPrestamos">
+            <tr>
+              <td colspan="6" class="text-center py-5">
+                <div
+                  class="spinner-border text-primary spinner-border-sm"
+                  role="status"
+                ></div>
+                <span class="ms-2 text-muted">Cargando préstamos...</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="px-4 py-3 border-top text-muted text-sm"
+        id="totalPrestamosLabel"
+      >
+        Cargando…
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PRÉSTAMO -->
+<div class="modal-overlay-container" id="modalPrestamosOverlay">
+  <div class="modal-overlay-content">
+    <div class="modal-header-custom">
+      <div>
+        <h5 id="modalPrestamosTitle">Nuevo Préstamo</h5>
+        <small class="text-muted">Registro de herramientas prestadas</small>
+      </div>
+      <button type="button" class="btn-close" id="btnCloseModalPrestamos">
+        <i class="bi bi-x-lg"></i>
+      </button>
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th class="ps-4">FECHA SALIDA</th>
-                            <th>TRABAJADOR</th>
-                            <th>ENTREGADO POR</th>
-                            <th>DEVOLUCIÓN ESPERADA</th>
-                            <th class="text-center">ESTADO</th>
-                            <th class="pe-4 text-end">ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-prestamos">
-                        <tr>
-                            <td colspan="6" class="text-center py-5">
-                                <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
-                                <span class="ms-2 text-muted">Cargando préstamos...</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="modal-body-custom">
+      <form id="formPrestamos" novalidate>
+        <input type="hidden" id="prestamoId" />
+
+        <div class="mb-3">
+          <label for="pTrabajador" class="form-label"
+            >Trabajador <span class="text-danger">*</span></label
+          >
+          <select id="pTrabajador" class="form-select" required>
+            <option value="">-- Selecciona un trabajador --</option>
+          </select>
+          <div class="invalid-feedback d-block" id="err-pTrabajador"></div>
         </div>
+
+        <div class="mb-3">
+          <label for="pHerramienta" class="form-label"
+            >Herramienta <span class="text-danger">*</span></label
+          >
+          <select id="pHerramienta" class="form-select" required>
+            <option value="">-- Selecciona una herramienta --</option>
+          </select>
+          <div class="invalid-feedback d-block" id="err-pHerramienta"></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="pMotivo" class="form-label">Motivo</label>
+          <textarea
+            id="pMotivo"
+            class="form-control"
+            placeholder="Ej: Reparación de muro"
+            maxlength="200"
+            rows="2"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="pFechaDev" class="form-label">Devolución Esperada</label>
+          <input type="date" id="pFechaDev" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label for="pEstado" class="form-label"
+            >Estado <span class="text-danger">*</span></label
+          >
+          <select id="pEstado" class="form-select" required>
+            <option value="">-- Selecciona un estado --</option>
+            <option value="activo">Activo</option>
+            <option value="devuelto">Devuelto</option>
+            <option value="vencido">Vencido</option>
+          </select>
+          <div class="invalid-feedback d-block" id="err-pEstado"></div>
+        </div>
+      </form>
     </div>
+
+    <div class="modal-footer-custom">
+      <button type="button" class="btn btn-secondary" id="btnCancelPrestamo">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-primary" id="btnSavePrestamo">
+        <span id="btnSavePrestamoText"
+          ><i class="bi bi-check-lg me-1"></i>Guardar</span
+        >
+        <span id="btnSavePrestamoSpinner" class="d-none"
+          ><div class="spinner-border spinner-border-sm"></div
+        ></span>
+      </button>
+    </div>
+  </div>
 </div>

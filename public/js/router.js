@@ -19,7 +19,7 @@ const ROUTES = {
   prestamos: {
     title:  'Préstamos',
     view:   '/views/prestamos.html',
-    module: () => Prestamos,
+    module: () => PrestamosModule,
   },
   trabajadores: {
     title:  'Trabajadores',
