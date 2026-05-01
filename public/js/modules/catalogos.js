@@ -384,7 +384,8 @@ const Catalogos = {
   _updateTotal() {
     const label = document.getElementById('totalCatalogosLabel');
     if (label) {
-      label.innerText = `Total: ${this.filteredData.length} registros`;
+      const count = this.filteredData.length;
+      label.innerText = `${count} registro(s) encontrado(s)`;
     }
   },
 
