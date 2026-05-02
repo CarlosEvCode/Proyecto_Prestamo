@@ -133,70 +133,70 @@ INSERT INTO
     )
 VALUES (
         'admin',
-        SHA2('admin123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Administrador General',
         1,
         TRUE
     ),
     (
         'supervisor1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Carlos Rodríguez',
         2,
         TRUE
     ),
     (
         'tecnico1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Juan López',
         3,
         TRUE
     ),
     (
         'operario1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Pedro Martínez',
         4,
         TRUE
     ),
     (
         'almacenero1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Luis García',
         5,
         TRUE
     ),
     (
         'encargado1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'María Fernández',
         6,
         TRUE
     ),
     (
         'jefe_equipo1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Roberto Sánchez',
         7,
         TRUE
     ),
     (
         'inspector1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Ana Ruiz',
         8,
         TRUE
     ),
     (
         'analista1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Gonzalo Torres',
         9,
         TRUE
     ),
     (
         'coordinador1',
-        SHA2('pass123', 256),
+        '$2b$10$FP0mOSkP3sgM2x9m.ObMdOAM5vhbYpQ6FBsSAOQs6JDumabKgcOFu',
         'Daniela Moreno',
         10,
         TRUE
