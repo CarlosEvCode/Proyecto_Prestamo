@@ -52,8 +52,24 @@ const DeleteModal = {
   },
 };
 
-/* ARRANQUE*/
+/* ARRANQUE del login */
 document.addEventListener('DOMContentLoaded', () => {
+  // Verificar si hay token, si no, redirigir a login
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/login.html';
+    return;
+  }
+
+  // Mostrar el nombre 
+  const usuarioNombre = localStorage.getItem('usuarioNombre');
+  if (usuarioNombre) {
+    const saludo = document.getElementById('usuarioSaludo');
+    if (saludo) {
+      saludo.innerText = `Hola, ${usuarioNombre}`;
+    }
+  }
+
   DeleteModal.render();
   Router.init();
   Router.navigateTo('dashboard');
