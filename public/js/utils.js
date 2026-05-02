@@ -88,3 +88,8 @@ function formatFecha(fechaStr) {
   const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   return `${d} ${meses[parseInt(m, 10) - 1]} ${y}`;
 }
+
+function logoutUser() {
+    localStorage.clear(); 
+    window.location.href = '/login.html';
+}
