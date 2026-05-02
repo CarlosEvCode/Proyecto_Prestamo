@@ -342,6 +342,19 @@ h1, h2, h3, h4, h5, h6 {
     transition: all 0.2s ease;
 }
 
+.input-group-text {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-right: none; /* Dejar que el input-group maneje la unión */
+    color: var(--text-muted);
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.input-group .form-control {
+    border-left: 1px solid var(--border-color) !important;
+}
+
 .form-control::placeholder {
     color: var(--text-muted);
     opacity: 0.7;
