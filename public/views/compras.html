@@ -1,0 +1,103 @@
+<div class="container-fluid animate__animated animate__fadeIn">
+  <!-- Cabecera -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Ingreso de Inventario (Compras)</h2>
+      <p class="text-muted text-sm">Registro masivo de herramientas nuevas al almacén.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-dark" id="btnRefreshCompras" title="Historial">
+        <i class="bi bi-clock-history"></i> Historial
+      </button>
+      <button class="btn btn-primary d-flex align-items-center gap-2" id="btnNuevaCompra">
+        <i class="bi bi-cart-plus-fill"></i> Registrar Compra
+      </button>
+    </div>
+  </div>
+
+  <!-- Vista Historial (Por defecto) -->
+  <div id="viewHistorial">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th class="ps-4">FECHA</th>
+                  <th>PROVEEDOR</th>
+                  <th>CANTIDAD ÍTEMS</th>
+                  <th>OBSERVACIONES</th>
+                  <th class="pe-4 text-end">ACCIONES</th>
+                </tr>
+              </thead>
+              <tbody id="bodyCompras">
+                <tr>
+                  <td colspan="5" class="text-center py-5 text-muted">No hay compras registradas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Vista Nueva Compra (Oculta inicialmente) -->
+  <div id="viewFormCompra" class="d-none">
+      <div class="row">
+          <!-- Cabecera Compra -->
+          <div class="col-12 col-lg-4">
+              <div class="card border-0 shadow-sm mb-4">
+                  <div class="card-header bg-transparent border-0 p-4 pb-0">
+                      <h5 class="mb-0">Datos del Proveedor</h5>
+                  </div>
+                  <div class="card-body p-4">
+                      <div class="mb-3">
+                          <label for="cProveedor" class="form-label text-muted">Seleccionar Proveedor</label>
+                          <select id="cProveedor" class="form-select"></select>
+                      </div>
+                      <div class="mb-3">
+                          <label for="cObservaciones" class="form-label text-muted">Observaciones</label>
+                          <textarea id="cObservaciones" class="form-control" rows="3" placeholder="Ej: Factura #123..."></textarea>
+                      </div>
+                  </div>
+              </div>
+              <button class="btn btn-success w-100 py-3 shadow" id="btnFinalizarCompra">
+                  <span id="btnFinalizarText"><i class="bi bi-check-circle-fill me-2"></i> Procesar Ingreso Total</span>
+                  <div class="spinner-border spinner-border-sm d-none" id="btnFinalizarSpinner"></div>
+              </button>
+              <button class="btn btn-outline-secondary w-100 mt-3" onclick="Compras.toggleView('historial')">Cancelar</button>
+          </div>
+
+          <!-- Detalle Items -->
+          <div class="col-12 col-lg-8">
+              <div class="card border-0 shadow-sm h-100">
+                  <div class="card-header bg-transparent border-0 p-4 d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Herramientas a Ingresar</h5>
+                      <button class="btn btn-primary btn-sm" id="btnAddRow">
+                          <i class="bi bi-plus-lg"></i> Añadir Fila
+                      </button>
+                  </div>
+                  <div class="card-body p-0">
+                      <table class="table table-hover align-middle mb-0">
+                          <thead>
+                              <tr class="bg-dark bg-opacity-25">
+                                  <th class="ps-4">MODELO</th>
+                                  <th>CÓDIGO INTERNO</th>
+                                  <th>N° SERIE</th>
+                                  <th>PRECIO</th>
+                                  <th class="pe-4 text-end"></th>
+                              </tr>
+                          </thead>
+                          <tbody id="bodyItemsCompra">
+                              <!-- Filas dinámicas -->
+                          </tbody>
+                      </table>
+                      <div id="noItemsMsg" class="text-center py-5 text-muted">
+                          No has añadido herramientas todavía.
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

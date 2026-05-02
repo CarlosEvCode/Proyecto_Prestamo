@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 class="fw-bold mb-1">Configuración de Catálogos</h2>
-      <p class="text-muted text-sm">Gestión de Marcas y Modelos.</p>
+      <p class="text-muted text-sm">Gestión de Marcas, Modelos y Proveedores.</p>
     </div>
     <button
       class="btn btn-primary d-flex align-items-center gap-2"
@@ -50,6 +50,14 @@
         onclick="Catalogos.switchTab('modelos')"
       >
         <i class="bi bi-layers me-2"></i>Modelos
+      </button>
+      <button
+        class="nav-link-custom d-none"
+        id="proveedores-tab"
+        type="button"
+        onclick="Catalogos.switchTab('proveedores')"
+      >
+        <i class="bi bi-truck me-2"></i>Proveedores
       </button>
     </div>
     <button
@@ -102,7 +110,7 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════════ MODAL CATALOGO (MARCA O MODELO) ════════════════════════════════════════════ -->
+<!--  MODAL CATALOGO  -->
 <div class="modal-overlay-container" id="modalCatalogosOverlay">
   <div class="modal-overlay-content">
     <div class="modal-header-custom">
@@ -134,6 +142,7 @@
           <div class="invalid-feedback d-block" id="err-cNombre"></div>
         </div>
 
+        <!-- Solo para Modelos -->
         <div class="mb-3" id="fieldMarca" style="display: none;">
           <label for="cMarca" class="form-label"
             >Marca <span class="text-danger">*</span></label
@@ -152,6 +161,12 @@
             <option value="">-- Seleccionar Categoría --</option>
           </select>
           <div class="invalid-feedback d-block" id="err-cCategoria"></div>
+        </div>
+
+        <!-- Solo para Proveedores -->
+        <div class="mb-3" id="fieldContacto" style="display: none;">
+          <label for="cContacto" class="form-label">Contacto (Teléfono/Email)</label>
+          <input type="text" id="cContacto" class="form-control" placeholder="Ej: 555-0199" />
         </div>
       </form>
     </div>

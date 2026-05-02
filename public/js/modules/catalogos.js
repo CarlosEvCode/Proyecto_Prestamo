@@ -1,6 +1,6 @@
 /**
  * modules/catalogos.js
- * Gestión de Catálogos (Marcas y Modelos) con modal único
+ * Gestión de Catálogos (Marcas, Modelos, Proveedores)
  */
 
 'use strict';
@@ -12,7 +12,6 @@ const Catalogos = {
   marcas: [],
   categorias: [],
 
- 
   async init() {
     this._bindEvents();
     await this.load();
@@ -20,16 +19,15 @@ const Catalogos = {
     await this._loadCategorias();
   },
 
- 
   async load() {
     try {
       const response = await fetch(`/api/catalogos/${this.currentTab}`);
       const result = await response.json();
 
       if (result.success) {
-        this.allData = result.data;
-        this.filteredData = result.data;
-        this._render(result.data);
+        this.allData = result.data || [];
+        this.filteredData = result.data || [];
+        this._render(this.allData);
         this._updateTotal();
       }
     } catch (error) {
@@ -38,11 +36,10 @@ const Catalogos = {
     }
   },
 
-  
   _render(data) {
-    data = data || [];
     const thead = document.getElementById('catalog-thead');
     const tbody = document.getElementById('catalog-tbody');
+    if (!thead || !tbody) return;
 
     // Configurar cabecera
     if (this.currentTab === 'modelos') {
@@ -52,25 +49,31 @@ const Catalogos = {
           <th>MARCA</th>
           <th>CATEGORÍA</th>
           <th class="pe-4 text-end">ACCIONES</th>
-        </tr>
-      `;
+        </tr>`;
+    } else if (this.currentTab === 'proveedores') {
+      thead.innerHTML = `
+        <tr>
+          <th class="ps-4">ID</th>
+          <th>NOMBRE</th>
+          <th>CONTACTO</th>
+          <th class="pe-4 text-end">ACCIONES</th>
+        </tr>`;
     } else {
       thead.innerHTML = `
         <tr>
           <th class="ps-4">ID</th>
           <th>NOMBRE</th>
           <th class="pe-4 text-end">ACCIONES</th>
-        </tr>
-      `;
+        </tr>`;
     }
 
     // Renderizar filas
     if (!data.length) {
-      tbody.innerHTML = `<tr><td colspan="4" class="text-center py-5 text-muted">No hay registros encontrados.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="text-center py-5 text-muted">No hay registros encontrados.</td></tr>`;
       return;
     }
 
-    tbody.innerHTML = data.map((item, i) => {
+    tbody.innerHTML = data.map(item => {
       if (this.currentTab === 'modelos') {
         return `
           <tr style="border-bottom: 1px solid var(--border-color);">
@@ -79,328 +82,181 @@ const Catalogos = {
             <td>${escapeHtml(item.categoria || '—')}</td>
             <td class="pe-4 text-end">
               <div class="d-flex justify-content-end gap-2">
-                <button class="btn btn-sm btn-dark" style="border: 1px solid var(--border-color);" onclick="Catalogos.openEdit(${item.id_modelo})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
-                <button class="btn btn-sm btn-dark" style="border: 1px solid var(--border-color);" onclick="Catalogos.confirmDel(${item.id_modelo},'${escapeHtml(item.nombre)}')" title="Eliminar"><i class="bi bi-trash text-danger"></i></button>
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.openEdit(${item.id_modelo})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.confirmDel(${item.id_modelo},'${escapeHtml(item.nombre)}')" title="Eliminar"><i class="bi bi-trash text-danger"></i></button>
               </div>
             </td>
-          </tr>
-        `;
+          </tr>`;
+      } else if (this.currentTab === 'proveedores') {
+        return `
+          <tr style="border-bottom: 1px solid var(--border-color);">
+            <td class="ps-4 text-muted">${item.id_proveedor}</td>
+            <td class="fw-bold text-white">${escapeHtml(item.nombre)}</td>
+            <td class="text-muted">${escapeHtml(item.contacto || '—')}</td>
+            <td class="pe-4 text-end">
+              <div class="d-flex justify-content-end gap-2">
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.openEdit(${item.id_proveedor})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.confirmDel(${item.id_proveedor},'${escapeHtml(item.nombre)}')" title="Eliminar"><i class="bi bi-trash text-danger"></i></button>
+              </div>
+            </td>
+          </tr>`;
       } else {
-        const idField = this.currentTab === 'marcas' ? 'id_marca' : 'id_categoria';
+        const idField = this.currentTab === 'marcas' ? 'id_marca' : (this.currentTab === 'areas' ? 'id_area' : 'id_categoria');
         return `
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td class="ps-4 text-muted">${item[idField]}</td>
             <td class="fw-bold text-white">${escapeHtml(item.nombre)}</td>
             <td class="pe-4 text-end">
               <div class="d-flex justify-content-end gap-2">
-                <button class="btn btn-sm btn-dark" style="border: 1px solid var(--border-color);" onclick="Catalogos.openEdit(${item[idField]})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
-                <button class="btn btn-sm btn-dark" style="border: 1px solid var(--border-color);" onclick="Catalogos.confirmDel(${item[idField]},'${escapeHtml(item.nombre)}')" title="Eliminar"><i class="bi bi-trash text-danger"></i></button>
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.openEdit(${item[idField]})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
+                <button class="btn btn-sm btn-dark" onclick="Catalogos.confirmDel(${item[idField]},'${escapeHtml(item.nombre)}')" title="Eliminar"><i class="bi bi-trash text-danger"></i></button>
               </div>
             </td>
-          </tr>
-        `;
+          </tr>`;
       }
     }).join('');
   },
 
   _filter() {
     const search = document.getElementById('searchCatalogo')?.value.toLowerCase().trim() || '';
-
     if (search === '') {
       this.filteredData = this.allData;
     } else {
       this.filteredData = this.allData.filter(item => {
-        const nombre = (item.nombre || '').toLowerCase();
-        let matches = nombre.includes(search);
-
-        // En modelos, también buscar por marca y categoría
+        const matchesName = (item.nombre || '').toLowerCase().includes(search);
         if (this.currentTab === 'modelos') {
-          const marca = (item.marca || '').toLowerCase();
-          const categoria = (item.categoria || '').toLowerCase();
-          matches = matches || marca.includes(search) || categoria.includes(search);
+          const matchesMarca = (item.marca || '').toLowerCase().includes(search);
+          const matchesCat = (item.categoria || '').toLowerCase().includes(search);
+          return matchesName || matchesMarca || matchesCat;
         }
-
-        // Buscar por ID
-        const idField = this.currentTab === 'marcas' ? 'id_marca' : this.currentTab === 'modelos' ? 'id_modelo' : 'id_categoria';
-        const id = String(item[idField] || '').toLowerCase();
-        matches = matches || id.includes(search);
-
-        return matches;
+        return matchesName;
       });
     }
-
     this._render(this.filteredData);
     this._updateTotal();
+  },
+
+  async switchTab(tab) {
+    this.currentTab = tab;
+    document.querySelectorAll('#catalogTabs .nav-link-custom').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`${tab}-tab`)?.classList.add('active');
+    document.getElementById('searchCatalogo').value = '';
+    await this.load();
   },
 
   _openModal(mode, item = null) {
     const isEdit = mode === 'edit';
     const isModelo = this.currentTab === 'modelos';
+    const isProveedor = this.currentTab === 'proveedores';
 
-    // Actualizar título
     const titleMap = {
       'marcas': isEdit ? 'Editar Marca' : 'Nueva Marca',
-      'modelos': isEdit ? 'Editar Modelo' : 'Nuevo Modelo'
+      'modelos': isEdit ? 'Editar Modelo' : 'Nuevo Modelo',
+      'proveedores': isEdit ? 'Editar Proveedor' : 'Nuevo Proveedor'
     };
-    document.getElementById('modalCatalogTitle').innerText = titleMap[this.currentTab];
-    document.getElementById('modalCatalogSubtitle').innerText = isEdit ? 'Editar registro' : 'Agregar nuevo registro';
+    setText('modalCatalogTitle', titleMap[this.currentTab] || 'Nuevo Registro');
+    setText('modalCatalogSubtitle', isEdit ? 'Editar registro existente' : 'Agregar un nuevo registro al catálogo');
 
-    // Limpiar formulario
     document.getElementById('formCatalogo').reset();
     document.getElementById('catalogId').value = '';
-    this._clearErrors();
+    clearErrors(['cNombre', 'cMarca', 'cCategoria']);
 
-    // Mostrar/ocultar campos según la pestaña
     document.getElementById('fieldMarca').style.display = isModelo ? 'block' : 'none';
     document.getElementById('fieldCategoria').style.display = isModelo ? 'block' : 'none';
+    document.getElementById('fieldContacto').style.display = isProveedor ? 'block' : 'none';
 
-    // Si es edición, llenar datos
     if (isEdit && item) {
-      document.getElementById('catalogId').value = isModelo ? item.id_modelo : (this.currentTab === 'marcas' ? item.id_marca : item.id_categoria);
+      const idField = isModelo ? 'id_modelo' : (isProveedor ? 'id_proveedor' : (this.currentTab === 'marcas' ? 'id_marca' : 'id_categoria'));
+      document.getElementById('catalogId').value = item[idField];
       document.getElementById('cNombre').value = item.nombre || '';
-
       if (isModelo) {
         document.getElementById('cMarca').value = item.id_marca || '';
         document.getElementById('cCategoria').value = item.id_categoria || '';
       }
+      if (isProveedor) {
+        document.getElementById('cContacto').value = item.contacto || '';
+      }
     }
-
     openOverlay('modalCatalogosOverlay');
   },
-
 
   async openEdit(id) {
     try {
       const response = await fetch(`/api/catalogos/${this.currentTab}/${id}`);
       const result = await response.json();
-
-      if (result.success) {
-        this._openModal('edit', result.data);
-      }
-    } catch (error) {
-      console.error('Error cargando item:', error);
-      showToast('Error al cargar el registro', 'error');
-    }
+      if (result.success) this._openModal('edit', result.data);
+    } catch (e) { showToast('Error al cargar registro', 'error'); }
   },
 
   confirmDel(id, name) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: `Vas a eliminar: "${name}"`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#6c757d',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const response = await fetch(`/api/catalogos/${this.currentTab}/${id}`, {
-            method: 'DELETE'
-          });
-
-          const resultData = await response.json();
-
-          if (resultData.success) {
-            await this.load();
-            showToast(`"${name}" eliminado correctamente`, 'success');
-          } else {
-            showToast(resultData.message || 'Error al eliminar', 'error');
-          }
-        } catch (error) {
-          console.error('Error eliminando:', error);
-          showToast('Error al eliminar', 'error');
+    DeleteModal.open('registro', id, name, async () => {
+      try {
+        const res = await http(`/api/catalogos/${this.currentTab}/${id}`, 'DELETE');
+        if (res.success) {
+          showToast('Registro eliminado', 'success');
+          await this.load();
         }
-      }
+      } catch (e) { showToast(e.message, 'error'); }
     });
   },
 
   async _save() {
-    if (!this._validate()) return;
-
     const id = document.getElementById('catalogId').value;
-    const isEdit = !!id;
     const nombre = document.getElementById('cNombre').value.trim();
-    const isModelo = this.currentTab === 'modelos';
+    if (!nombre) return setError('cNombre', 'err-cNombre', 'El nombre es obligatorio');
 
     const body = { nombre };
-    if (isModelo) {
+    if (this.currentTab === 'modelos') {
       body.id_marca = document.getElementById('cMarca').value;
       body.id_categoria = document.getElementById('cCategoria').value;
     }
+    if (this.currentTab === 'proveedores') {
+      body.contacto = document.getElementById('cContacto').value.trim();
+    }
 
     setLoading('btnSaveCatalogo', 'btnSaveCatalogoText', 'btnSaveCatalogoSpinner', true);
-
     try {
-      const method = isEdit ? 'PUT' : 'POST';
-      const url = isEdit 
-        ? `/api/catalogos/${this.currentTab}/${id}` 
-        : `/api/catalogos/${this.currentTab}`;
-
-      const response = await fetch(url, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        await this.load();
-        closeOverlay('modalCatalogosOverlay');
-        showToast(result.message || `${this.currentTab.slice(0, -1)} ${isEdit ? 'actualizado' : 'creado'} correctamente`, 'success');
-      } else {
-        showToast(result.message || 'Error al guardar', 'error');
-      }
-    } catch (error) {
-      console.error('Error guardando:', error);
-      showToast('Error al guardar', 'error');
-    } finally {
-      setLoading('btnSaveCatalogo', 'btnSaveCatalogoText', 'btnSaveCatalogoSpinner', false);
-    }
-  },
-
-  _validate() {
-    this._clearErrors();
-    let ok = true;
-    const nombre = document.getElementById('cNombre').value.trim();
-
-    if (!nombre) {
-      setError('cNombre', 'err-cNombre', 'El nombre es obligatorio');
-      ok = false;
-    }
-
-    if (this.currentTab === 'modelos') {
-      const marca = document.getElementById('cMarca').value;
-      const categoria = document.getElementById('cCategoria').value;
-
-      if (!marca) {
-        setError('cMarca', 'err-cMarca', 'La marca es obligatoria');
-        ok = false;
-      }
-
-      if (!categoria) {
-        setError('cCategoria', 'err-cCategoria', 'La categoría es obligatoria');
-        ok = false;
-      }
-    }
-
-    return ok;
-  },
-
-  _bindEvents() {
-    // Botón Nuevo
-    document.getElementById('btnNuevo')?.addEventListener('click', () => {
-      this._openModal('new');
-    });
-
-    // Botón Refrescar
-    document.getElementById('btnRefreshCatalogo')?.addEventListener('click', () => {
-      this.load();
-    });
-
-    // Búsqueda
-    document.getElementById('searchCatalogo')?.addEventListener('input', () => {
-      this._filter();
-    });
-
-    // Modal - Cerrar
-    document.getElementById('btnCloseCatalogo')?.addEventListener('click', () => {
+      const method = id ? 'PUT' : 'POST';
+      const url = id ? `/api/catalogos/${this.currentTab}/${id}` : `/api/catalogos/${this.currentTab}`;
+      await http(url, method, body);
+      showToast('Guardado correctamente', 'success');
       closeOverlay('modalCatalogosOverlay');
-    });
-
-    document.getElementById('btnCancelCatalogo')?.addEventListener('click', () => {
-      closeOverlay('modalCatalogosOverlay');
-    });
-
-    // Modal - Guardar
-    document.getElementById('btnSaveCatalogo')?.addEventListener('click', () => {
-      this._save();
-    });
-
-    // Cerrar modal clickeando fuera
-    document.getElementById('modalCatalogosOverlay')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modalCatalogosOverlay') {
-        closeOverlay('modalCatalogosOverlay');
-      }
-    });
-  },
-
-  async switchTab(tab) {
-    this.currentTab = tab;
-
-    // Actualizar estado visual de las pestañas
-    document.querySelectorAll('#catalogTabs .nav-link-custom').forEach(btn => {
-      btn.classList.remove('active');
-    });
-    document.getElementById(`${tab}-tab`)?.classList.add('active');
-
-    document.getElementById('searchCatalogo').value = '';
-    await this.load();
+      await this.load();
+    } catch (e) { showToast(e.message, 'error'); }
+    finally { setLoading('btnSaveCatalogo', 'btnSaveCatalogoText', 'btnSaveCatalogoSpinner', false); }
   },
 
   async _loadMarcas() {
-    try {
-      const response = await fetch('/api/catalogos/marcas');
-      const result = await response.json();
-
-      if (result.success) {
-        this.marcas = result.data;
-        this._populateMarcasSelect();
-      }
-    } catch (error) {
-      console.error('Error cargando marcas:', error);
-    }
+    const { data } = await http('/api/catalogos/marcas');
+    this.marcas = data || [];
+    const sel = document.getElementById('cMarca');
+    if (sel) sel.innerHTML = '<option value="">-- Seleccionar Marca --</option>' + 
+      this.marcas.map(m => `<option value="${m.id_marca}">${escapeHtml(m.nombre)}</option>`).join('');
   },
 
   async _loadCategorias() {
-    try {
-      const response = await fetch('/api/catalogos/categorias');
-      const result = await response.json();
-
-      if (result.success) {
-        this.categorias = result.data;
-        this._populateCategoriasSelect();
-      }
-    } catch (error) {
-      console.error('Error cargando categorías:', error);
-    }
-  },
-
-  _populateMarcasSelect() {
-    const select = document.getElementById('cMarca');
-    if (select) {
-      select.innerHTML = '<option value="">-- Seleccionar Marca --</option>';
-      this.marcas.forEach(marca => {
-        select.innerHTML += `<option value="${marca.id_marca}">${escapeHtml(marca.nombre)}</option>`;
-      });
-    }
-  },
-
-  _populateCategoriasSelect() {
-    const select = document.getElementById('cCategoria');
-    if (select) {
-      select.innerHTML = '<option value="">-- Seleccionar Categoría --</option>';
-      this.categorias.forEach(categoria => {
-        select.innerHTML += `<option value="${categoria.id_categoria}">${escapeHtml(categoria.nombre)}</option>`;
-      });
-    }
+    const { data } = await http('/api/catalogos/categorias');
+    this.categorias = data || [];
+    const sel = document.getElementById('cCategoria');
+    if (sel) sel.innerHTML = '<option value="">-- Seleccionar Categoría --</option>' + 
+      this.categorias.map(c => `<option value="${c.id_categoria}">${escapeHtml(c.nombre)}</option>`).join('');
   },
 
   _updateTotal() {
-    const label = document.getElementById('totalCatalogosLabel');
-    if (label) {
-      const count = this.filteredData.length;
-      label.innerText = `${count} registro(s) encontrado(s)`;
-    }
+    setText('totalCatalogosLabel', `${this.filteredData.length} registro(s) encontrado(s)`);
   },
 
   _clearErrors() {
-    ['cNombre', 'cMarca', 'cCategoria'].forEach(id => {
-      const el = document.getElementById(`err-${id}`);
-      if (el) el.innerText = '';
-    });
+    clearErrors(['cNombre', 'cMarca', 'cCategoria']);
+  },
+
+  _bindEvents() {
+    document.getElementById('btnNuevo')?.addEventListener('click', () => this._openModal('new'));
+    document.getElementById('btnRefreshCatalogo')?.addEventListener('click', () => this.load());
+    document.getElementById('searchCatalogo')?.addEventListener('input', () => this._filter());
+    document.getElementById('btnSaveCatalogo')?.addEventListener('click', () => this._save());
+    document.getElementById('btnCloseCatalogo')?.addEventListener('click', () => closeOverlay('modalCatalogosOverlay'));
+    document.getElementById('btnCancelCatalogo')?.addEventListener('click', () => closeOverlay('modalCatalogosOverlay'));
   }
 };
 

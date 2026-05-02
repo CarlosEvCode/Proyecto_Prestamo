@@ -343,4 +343,34 @@ router.post("/areas", async (req, res) => {
   }
 });
 
+/* --- PROVEEDORES --- */
+router.get("/proveedores", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM proveedores ORDER BY nombre ASC");
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al obtener proveedores" });
+  }
+});
+
+router.get("/proveedores/:id", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM proveedores WHERE id_proveedor = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ success: false, message: "Proveedor no encontrado" });
+    res.json({ success: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al obtener proveedor" });
+  }
+});
+
+router.post("/proveedores", async (req, res) => {
+  try {
+    const { nombre, contacto } = req.body;
+    const [result] = await db.query("INSERT INTO proveedores (nombre, contacto) VALUES (?, ?)", [nombre, contacto]);
+    res.status(201).json({ success: true, message: "Proveedor creado", data: { id_proveedor: result.insertId, nombre } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al crear proveedor" });
+  }
+});
+
 module.exports = router;

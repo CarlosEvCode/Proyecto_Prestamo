@@ -25,6 +25,11 @@ const ROUTES = {
     title:  'Trabajadores',
     view:   '/views/trabajadores.html',
     module: () => Trabajadores,
+  },
+  compras: {
+    title:  'Compras',
+    view:   '/views/compras.html',
+    module: () => Compras,
   }
 };
 
