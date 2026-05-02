@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StockPro | Gestión de Herramientas</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -59,10 +68,28 @@
       <header class="topbar">
         <div class="topbar-title" id="topbarTitle">Dashboard</div>
         <div class="d-flex align-items-center gap-3">
-          <span class="text-muted text-sm">Hola, Admin</span>
-          <div style="width: 35px; height: 35px; background: #2a2d3e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+          <span class="text-muted text-sm" id="usuarioSaludo"
+            >Hola, Usuario</span
+          >
+          <div
+            style="
+              width: 35px;
+              height: 35px;
+              background: #2a2d3e;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
             <i class="bi bi-person"></i>
           </div>
+          <button
+            onclick="if (confirm('¿Cerrar sesión?')) logoutUser();"
+            class="btn btn-sm btn-danger ms-2"
+          >
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
+          </button>
         </div>
       </header>
 
@@ -72,7 +99,10 @@
     </main>
 
     <!-- Toast Container -->
-    <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999"></div>
+    <div
+      id="toastContainer"
+      style="position: fixed; top: 20px; right: 20px; z-index: 9999"
+    ></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/utils.js"></script>
