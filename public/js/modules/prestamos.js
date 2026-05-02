@@ -229,6 +229,42 @@ const PrestamosModule = {
     });
     
     document.getElementById('btnRefreshPrestamos')?.addEventListener('click', () => this.load());
+    document.getElementById('btnSaveDevolucion')?.addEventListener('click', () => this.saveDevolucion());
+    document.getElementById('btnCancelDevolucion')?.addEventListener('click', () => closeOverlay('modalDevolucionOverlay'));
+    document.getElementById('btnCloseModalDevolucion')?.addEventListener('click', () => closeOverlay('modalDevolucionOverlay'));
+    document.getElementById('searchPrestamo')?.addEventListener('input', () => this._filter());
+    document.getElementById('filterEstado')?.addEventListener('change', () => this._filter());
+    document.getElementById('modalPrestamosOverlay')?.addEventListener('click', e => {
+      if (e.target.id === 'modalPrestamosOverlay') closeOverlay('modalPrestamosOverlay');
+    });
+  },
+};
+
+un estado'); ok = false; }
+    return ok;
+  },
+
+  /* ── Listeners ── */
+  _bindEvents() {
+    document.getElementById('btnNuevoPrestamo')?.addEventListener('click', () => {
+      if (!AppState.trabajadores.length || !AppState.herramientas.length) {
+        showToast('No hay datos disponibles. Verifica trabajadores y herramientas.', 'info');
+        return;
+      }
+      this._openModal('new');
+    });
+
+    document.getElementById('btnSavePrestamo')?.addEventListener('click', () => this._save());
+    
+    document.getElementById('btnCancelPrestamo')?.addEventListener('click', () => {
+      closeOverlay('modalPrestamosOverlay');
+    });
+    
+    document.getElementById('btnCloseModalPrestamos')?.addEventListener('click', () => {
+      closeOverlay('modalPrestamosOverlay');
+    });
+    
+    document.getElementById('btnRefreshPrestamos')?.addEventListener('click', () => this.load());
     document.getElementById('searchPrestamo')?.addEventListener('input', () => this._filter());
     document.getElementById('filterEstado')?.addEventListener('change', () => this._filter());
     document.getElementById('modalPrestamosOverlay')?.addEventListener('click', e => {

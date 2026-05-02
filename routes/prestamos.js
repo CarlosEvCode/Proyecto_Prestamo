@@ -142,6 +142,43 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+/* Registrar devolución de préstamo */
+router.put("/:id/devolucion", async (req, res) => {
+  const connection = await db.getConnection();
+  try {
+    await connection.beginTransaction();
+    
+    const { id } = req.params;
+    const { id_herramienta, condicion_devolucion, fecha_devolucion_real } = req.body;
+
+    // 1. Actualizar el préstamo
+    await connection.query(
+      `UPDATE prestamos SET 
+        fecha_devolucion_real = ?, 
+        estado = 'devuelto' 
+      WHERE id_prestamo = ?`,
+      [fecha_devolucion_real || new Date(), id]
+    );
+
+    // 2. Actualizar la herramienta (su condición y marcarla como activa si estaba inactiva)
+    await connection.query(
+      `UPDATE herramientas SET 
+        condicion = ?, 
+        activo = 1 
+      WHERE id_herramienta = ?`,
+      [condicion_devolucion, id_herramienta]
+    );
+
+    await connection.commit();
+    res.json({ success: true, message: "Devolución registrada correctamente" });
+  } catch (error) {
+    await connection.rollback();
+    res.status(500).json({ success: false, message: error.message });
+  } finally {
+    connection.release();
+  }
+});
+
 /* Eliminar préstamo */
 router.delete("/:id", async (req, res) => {
   try {

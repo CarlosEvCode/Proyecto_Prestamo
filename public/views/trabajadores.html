@@ -1,23 +1,53 @@
 <div class="container-fluid animate__animated animate__fadeIn">
+  <!-- Cabecera -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 class="fw-bold mb-1">Personal / Trabajadores</h2>
-      <p class="text-muted text-sm">
-        Gestión de operarios y personal autorizado para préstamos.
-      </p>
+      <p class="text-muted text-sm">Gestión de operarios y personal autorizado para préstamos.</p>
     </div>
-    <button class="btn btn-primary d-flex align-items-center gap-2">
-      <i class="bi bi-person-plus-fill"></i> Nuevo Trabajador
-    </button>
+    <div class="d-flex gap-2">
+      <button class="btn btn-dark" id="btnRefreshTrabajadores" title="Refrescar datos">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+      <button class="btn btn-primary d-flex align-items-center gap-2" id="btnNuevoTrabajador">
+        <i class="bi bi-person-plus-fill"></i> Nuevo Trabajador
+      </button>
+    </div>
   </div>
 
+  <!-- Filtros -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-3">
+      <div class="row g-3">
+        <div class="col-12 col-md-5">
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 text-muted">
+              <i class="bi bi-search"></i>
+            </span>
+            <input type="text" id="searchTrabajador" class="form-control border-start-0" placeholder="Buscar por nombre o DNI...">
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <select id="filterArea" class="form-select">
+            <option value="">Todas las Áreas</option>
+          </select>
+        </div>
+        <div class="col-6 col-md-4 d-flex align-items-center justify-content-end text-muted text-sm">
+          <span id="totalTrabajadoresLabel">0 trabajador(es) encontrado(s)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
   <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead>
             <tr>
-              <th class="ps-4">DNI / IDENTIFICACIÓN</th>
+              <th class="ps-4">#</th>
+              <th>DNI</th>
               <th>NOMBRE COMPLETO</th>
               <th>CARGO</th>
               <th>ÁREA TRABAJO</th>
@@ -26,19 +56,79 @@
             </tr>
           </thead>
           <tbody id="tabla-trabajadores">
-            <!-- Carga dinámica -->
             <tr>
-              <td colspan="6" class="text-center py-5">
-                <div
-                  class="spinner-border text-primary spinner-border-sm"
-                  role="status"
-                ></div>
+              <td colspan="7" class="text-center py-5">
+                <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
                 <span class="ms-2 text-muted">Cargando personal...</span>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════ MODAL TRABAJADOR ════════════════════════════════════════════ -->
+<div class="modal-overlay-container" id="modalTrabajadorOverlay">
+  <div class="modal-overlay-content">
+    <div class="modal-header-custom">
+      <div>
+        <h5 id="modalTrabajadorTitle">Nuevo Trabajador</h5>
+        <small class="text-muted" id="modalTrabajadorSubtitle">Información del personal</small>
+      </div>
+      <button type="button" class="btn-close" id="btnCloseModalTrabajador">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-custom">
+      <form id="formTrabajador" novalidate>
+        <input type="hidden" id="trabajadorId" />
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="tDni" class="form-label">DNI / Identificación <span class="text-danger">*</span></label>
+            <input type="text" id="tDni" class="form-control" placeholder="Ej: 77123456" maxlength="20" required />
+            <div class="invalid-feedback d-block" id="err-tDni"></div>
+          </div>
+          <div class="col-md-6">
+            <label for="tTurno" class="form-label">Turno</label>
+            <select id="tTurno" class="form-select">
+              <option value="">-- Seleccionar --</option>
+              <option value="Mañana">Mañana</option>
+              <option value="Tarde">Tarde</option>
+              <option value="Noche">Noche</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="tNombre" class="form-label">Nombre Completo <span class="text-danger">*</span></label>
+            <input type="text" id="tNombre" class="form-control" placeholder="Ingrese nombres y apellidos" required />
+            <div class="invalid-feedback d-block" id="err-tNombre"></div>
+          </div>
+          <div class="col-md-6">
+            <label for="tCargo" class="form-label">Cargo</label>
+            <input type="text" id="tCargo" class="form-control" placeholder="Ej: Operario A" />
+          </div>
+          <div class="col-md-6">
+            <label for="tArea" class="form-label">Área de Trabajo <span class="text-danger">*</span></label>
+            <select id="tArea" class="form-select" required>
+              <option value="">-- Seleccionar área --</option>
+            </select>
+            <div class="invalid-feedback d-block" id="err-tArea"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer-custom">
+      <button type="button" class="btn btn-secondary" id="btnCancelTrabajador">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="btnSaveTrabajador">
+        <span id="btnSaveTrabajadorText"><i class="bi bi-check-lg me-1"></i>Guardar</span>
+        <span id="btnSaveTrabajadorSpinner" class="d-none">
+          <div class="spinner-border spinner-border-sm"></div>
+        </span>
+      </button>
     </div>
   </div>
 </div>

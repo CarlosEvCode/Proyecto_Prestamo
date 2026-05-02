@@ -158,3 +158,54 @@
     </div>
   </div>
 </div>
+
+<!-- ════════════════════════════════════════════ MODAL DEVOLUCIÓN ════════════════════════════════════════════ -->
+<div class="modal-overlay-container" id="modalDevolucionOverlay">
+  <div class="modal-overlay-content modal-sm">
+    <div class="modal-header-custom">
+      <div>
+        <h5>Registrar Devolución</h5>
+        <small class="text-muted">Actualizar estado de la herramienta</small>
+      </div>
+      <button type="button" class="btn-close" id="btnCloseModalDevolucion">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-custom">
+      <form id="formDevolucion">
+        <input type="hidden" id="dPrestamoId" />
+        <input type="hidden" id="dHerramientaId" />
+        
+        <div class="mb-3">
+          <label class="form-label">Herramienta</label>
+          <input type="text" id="dHerramientaNombre" class="form-control-plaintext text-white fw-bold" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label for="dCondicion" class="form-label">Condición de Regreso <span class="text-danger">*</span></label>
+          <select id="dCondicion" class="form-select" required>
+            <option value="bueno">BUENO</option>
+            <option value="regular">REGULAR</option>
+            <option value="malo">MALO (Fuera de servicio)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="dFechaReal" class="form-label">Fecha Devolución</label>
+          <input type="date" id="dFechaReal" class="form-control" />
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer-custom">
+      <button type="button" class="btn btn-secondary" id="btnCancelDevolucion">Cancelar</button>
+      <button type="button" class="btn btn-success" id="btnSaveDevolucion">
+        <span id="btnSaveDevolucionText"><i class="bi bi-check2-circle me-1"></i> Confirmar Regreso</span>
+        <span id="btnSaveDevolucionSpinner" class="d-none">
+          <div class="spinner-border spinner-border-sm"></div>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
