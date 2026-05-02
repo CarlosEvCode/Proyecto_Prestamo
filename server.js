@@ -20,11 +20,9 @@ app.use('/api/catalogos', require('./routes/catalogos'));
 app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/trabajadores', require('./routes/trabajadores'));
  app.use('/api/usuarios', require('./routes/usuarios'));
-/*app.use('/api/herramientas', require('./routes/herramientas'));
-app.use('/api/prestamos', require('./routes/prestamos'));
-app.use('/api/compras', require('./routes/compras')); */
 
-app.get('/{*path}', (req, res) => {
+
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
