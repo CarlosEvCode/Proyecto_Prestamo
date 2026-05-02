@@ -20,12 +20,28 @@
       role="tablist"
     >
       <button
+        class="nav-link-custom d-none"
+        id="areas-tab"
+        type="button"
+        onclick="Catalogos.switchTab('areas')"
+      >
+        <i class="bi bi-geo-alt me-2"></i>Áreas
+      </button>
+      <button
         class="nav-link-custom active"
         id="marcas-tab"
         type="button"
         onclick="Catalogos.switchTab('marcas')"
       >
         <i class="bi bi-tag me-2"></i>Marcas
+      </button>
+      <button
+        class="nav-link-custom d-none"
+        id="categorias-tab"
+        type="button"
+        onclick="Catalogos.switchTab('categorias')"
+      >
+        <i class="bi bi-grid me-2"></i>Categorías
       </button>
       <button
         class="nav-link-custom"

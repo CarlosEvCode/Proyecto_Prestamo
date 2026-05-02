@@ -75,8 +75,8 @@ const Catalogos = {
         return `
           <tr style="border-bottom: 1px solid var(--border-color);">
             <td class="ps-4 fw-bold text-white">${escapeHtml(item.nombre)}</td>
-            <td>${escapeHtml(item.marca || 'N/A')}</td>
-            <td>${escapeHtml(item.categoria || 'N/A')}</td>
+            <td>${escapeHtml(item.marca || '—')}</td>
+            <td>${escapeHtml(item.categoria || '—')}</td>
             <td class="pe-4 text-end">
               <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-sm btn-dark" style="border: 1px solid var(--border-color);" onclick="Catalogos.openEdit(${item.id_modelo})" title="Editar"><i class="bi bi-pencil text-muted"></i></button>
@@ -155,9 +155,9 @@ const Catalogos = {
     document.getElementById('fieldCategoria').style.display = isModelo ? 'block' : 'none';
 
     // Si es edición, llenar datos
-    if (isEdit) {
+    if (isEdit && item) {
       document.getElementById('catalogId').value = isModelo ? item.id_modelo : (this.currentTab === 'marcas' ? item.id_marca : item.id_categoria);
-      document.getElementById('cNombre').value = item.nombre;
+      document.getElementById('cNombre').value = item.nombre || '';
 
       if (isModelo) {
         document.getElementById('cMarca').value = item.id_marca || '';
@@ -329,6 +329,13 @@ const Catalogos = {
 
   async switchTab(tab) {
     this.currentTab = tab;
+
+    // Actualizar estado visual de las pestañas
+    document.querySelectorAll('#catalogTabs .nav-link-custom').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.getElementById(`${tab}-tab`)?.classList.add('active');
+
     document.getElementById('searchCatalogo').value = '';
     await this.load();
   },
