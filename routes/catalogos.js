@@ -313,4 +313,34 @@ router.get("/categorias/:id", async (req, res) => {
   }
 });
 
+/* --- ÁREAS --- */
+router.get("/areas", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM areas ORDER BY nombre ASC");
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al obtener áreas" });
+  }
+});
+
+router.get("/areas/:id", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM areas WHERE id_area = ?", [req.params.id]);
+    if (rows.length === 0) return res.status(404).json({ success: false, message: "Área no encontrada" });
+    res.json({ success: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al obtener área" });
+  }
+});
+
+router.post("/areas", async (req, res) => {
+  try {
+    const { nombre } = req.body;
+    const [result] = await db.query("INSERT INTO areas (nombre) VALUES (?)", [nombre]);
+    res.status(201).json({ success: true, message: "Área creada", data: { id_area: result.insertId, nombre } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error al crear área" });
+  }
+});
+
 module.exports = router;

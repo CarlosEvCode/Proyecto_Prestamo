@@ -9,13 +9,12 @@ const Trabajadores = {
   
   async init() {
     // Asegurar que las áreas están cargadas
-    if (!AppState.areas || !AppState.areas.length) {
-      try {
+    try {
         const { data } = await http('/api/catalogos/areas');
-        AppState.areas = data;
-      } catch (e) {
+        AppState.areas = data || [];
+    } catch (e) {
         console.error('Error al cargar áreas:', e.message);
-      }
+        AppState.areas = []; // Evitar null
     }
 
     this._bindEvents();
