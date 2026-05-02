@@ -107,22 +107,19 @@ VALUES ('Herramientas Manuales'),
 
 -- ==================== TABLAS CON RELACIONES SIMPLES ====================
 
--- Tabla: modelos (depende de marcas)
+-- Tabla: modelos (depende de marcas y categorias)
 INSERT INTO
-    modelos (nombre, id_marca)
-VALUES ('Taladro TDH-500', 1),
-    ('Compresor C-1200', 2),
-    ('Sierra Circular SC-180', 3),
-    ('Martillo Neumático MN-15', 4),
-    ('Juego de Llaves JL-50', 5),
-    ('Tuerca de Impacto TI-800', 6),
-    ('Medidor Digital MD-100', 1),
-    ('Arnés de Seguridad AS-10', 2),
-    ('Cables de Poder CP-50', 3),
-    (
-        'Destornillador de Precisión DP-25',
-        4
-    );
+    modelos (nombre, id_marca, id_categoria)
+VALUES ('Taladro TDH-500', 1, 2),
+    ('Compresor C-1200', 2, 3),
+    ('Sierra Circular SC-180', 3, 2),
+    ('Martillo Neumático MN-15', 4, 3),
+    ('Juego de Llaves JL-50', 5, 1),
+    ('Tuerca de Impacto TI-800', 6, 3),
+    ('Medidor Digital MD-100', 1, 4),
+    ('Arnés de Seguridad AS-10', 2, 5),
+    ('Cables de Poder CP-50', 3, 10),
+    ('Destornillador de Precisión DP-25', 4, 1);
 
 -- Tabla: usuarios (depende de roles y usuarios misma tabla para created_by, updated_by)
 -- Insertamos sin las referencias a created_by y updated_by inicialmente
@@ -783,43 +780,3 @@ VALUES (
 
 -- ==================== RESUMEN ====================
 SELECT '✓ Datos de prueba insertados exitosamente' AS Resultado;
-
-SELECT CONCAT(COUNT(*), ' marcas')
-FROM marcas
-UNION ALL
-SELECT CONCAT(COUNT(*), ' proveedores')
-FROM proveedores
-UNION ALL
-SELECT CONCAT(COUNT(*), ' áreas')
-FROM areas
-UNION ALL
-SELECT CONCAT(COUNT(*), ' roles')
-FROM roles
-UNION ALL
-SELECT CONCAT(COUNT(*), ' modelos')
-FROM modelos
-UNION ALL
-SELECT CONCAT(COUNT(*), ' usuarios')
-FROM usuarios
-UNION ALL
-SELECT CONCAT(COUNT(*), ' trabajadores')
-FROM trabajadores
-UNION ALL
-SELECT CONCAT(COUNT(*), ' herramientas')
-FROM herramientas
-UNION ALL
-SELECT CONCAT(COUNT(*), ' compras')
-FROM compras
-UNION ALL
-SELECT CONCAT(
-        COUNT(*), ' detalles de compra'
-    )
-FROM detalle_compra
-UNION ALL
-SELECT CONCAT(COUNT(*), ' préstamos')
-FROM prestamos
-UNION ALL
-SELECT CONCAT(
-        COUNT(*), ' detalles de préstamo'
-    )
-FROM detalle_prestamo;

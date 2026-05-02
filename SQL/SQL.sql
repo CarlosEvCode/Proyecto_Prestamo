@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS gestion_herramientas;
+DROP DATABASE IF EXISTS gestion_herramientas;
+CREATE DATABASE gestion_herramientas;
 
 USE gestion_herramientas;
 
