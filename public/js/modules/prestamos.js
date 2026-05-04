@@ -223,6 +223,14 @@ const PrestamosModule = {
     document.getElementById('searchPrestamo')?.addEventListener('input', () => this._filter());
     document.getElementById('filterEstado')?.addEventListener('change', () => this._filter());
     
+    // Botón de reporte (capturar filtros)
+    document.getElementById('btnReportePrestamos')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const estado = document.getElementById('filterEstado')?.value || '';
+      const url = `/api/reportes/prestamos?estado=${estado}`;
+      window.open(url, '_blank');
+    });
+
     document.getElementById('btnSavePrestamo')?.addEventListener('click', () => this._save());
     document.getElementById('btnCancelPrestamo')?.addEventListener('click', () => closeOverlay('modalPrestamosOverlay'));
     document.getElementById('btnCloseModalPrestamos')?.addEventListener('click', () => closeOverlay('modalPrestamosOverlay'));
