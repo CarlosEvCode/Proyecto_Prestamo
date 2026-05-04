@@ -162,6 +162,10 @@ const PrestamosModule = {
     try {
       await http(`/api/prestamos/${id}/devolucion`, 'PUT', body);
       showToast('Devolución registrada correctamente', 'success');
+      // Refrescar gráficos del dashboard
+      if (window.Dashboard && typeof window.Dashboard.refresh === 'function') {
+        await window.Dashboard.refresh();
+      }
       closeOverlay('modalDevolucionOverlay');
       await this.load();
     } catch (e) {
@@ -187,6 +191,10 @@ const PrestamosModule = {
 
       await http(id ? `/api/prestamos/${id}` : '/api/prestamos', id ? 'PUT' : 'POST', body);
       showToast(`Préstamo ${id ? 'actualizado' : 'creado'} correctamente`, 'success');
+      // Refrescar gráficos del dashboard
+      if (window.Dashboard && typeof window.Dashboard.refresh === 'function') {
+        await window.Dashboard.refresh();
+      }
       closeOverlay('modalPrestamosOverlay');
       await this.load();
     } catch (e) {
@@ -210,6 +218,10 @@ const PrestamosModule = {
       try {
         await http(`/api/prestamos/${id}`, 'DELETE');
         showToast('Préstamo eliminado correctamente', 'success');
+        // Refrescar gráficos del dashboard
+        if (window.Dashboard && typeof window.Dashboard.refresh === 'function') {
+          await window.Dashboard.refresh();
+        }
         await this.load();
       } catch (e) {
         showToast(e.message, 'error');
