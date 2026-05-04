@@ -171,6 +171,12 @@ const HerramientasModule = {
       try {
         await http(`/api/herramientas/${id}`, 'DELETE');
         showToast('Herramienta eliminada correctamente', 'success');
+        
+        // Refrescar gráficos del dashboard
+        if (window.Dashboard && typeof window.Dashboard.refresh === 'function') {
+          await window.Dashboard.refresh();
+        }
+        
         this.load();
       } catch (e) {
         showToast('Error al eliminar: ' + e.message, 'error');
@@ -226,6 +232,11 @@ const HerramientasModule = {
       } else {
         await http('/api/herramientas', 'POST', payload);
         showToast('Herramienta creada correctamente', 'success');
+      }
+
+      // Refrescar gráficos del dashboard
+      if (window.Dashboard && typeof window.Dashboard.refresh === 'function') {
+        await window.Dashboard.refresh();
       }
 
       closeOverlay('modalHerramientaOverlay');
