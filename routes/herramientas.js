@@ -19,6 +19,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Obtener una herramienta por ID
+router.get("/:id", async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT h.*, m.nombre as modelo_nombre, ma.nombre as marca_nombre, c.nombre as categoria_nombre
+      FROM herramientas h
+      LEFT JOIN modelos m ON h.id_modelo = m.id_modelo
+      LEFT JOIN marcas ma ON m.id_marca = ma.id_marca
+      LEFT JOIN categorias c ON m.id_categoria = c.id_categoria
+      WHERE h.id_herramienta = ?
+    `, [req.params.id]);
+    if (!rows.length) return res.status(404).json({ success: false, message: "Herramienta no encontrada" });
+    res.json({ success: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // Crear
 router.post("/", async (req, res) => {
   try {
