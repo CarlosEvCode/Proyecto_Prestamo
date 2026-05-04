@@ -30,7 +30,6 @@ const HerramientasModule = {
       const { data } = await http('/api/herramientas');
       AppState.herramientas = data;
       this._render(data);
-      updateBadges();
     } catch (e) {
       showToast('Error al cargar herramientas: ' + e.message, 'error');
     }
@@ -109,6 +108,15 @@ const HerramientasModule = {
 
     // Botón de actualizar
     document.getElementById('btnRefreshHerramientas')?.addEventListener('click', () => this.load());
+
+    // Botón de reporte (capturar filtros)
+    document.getElementById('btnReporteHerramientas')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const condicion = document.getElementById('filterCondicion')?.value || '';
+      const estado = document.getElementById('filterEstado')?.value || '';
+      const url = `/api/reportes/herramientas?condicion=${condicion}&estado=${estado}`;
+      window.open(url, '_blank');
+    });
 
     // Modal
     document.querySelector('button.btn-primary')?.addEventListener('click', () => this._openModal('create'));

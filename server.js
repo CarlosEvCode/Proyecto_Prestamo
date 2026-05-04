@@ -19,7 +19,8 @@ app.use('/api/compras', require('./routes/compras'));
 app.use('/api/catalogos', require('./routes/catalogos'));
 app.use('/api/herramientas', require('./routes/herramientas'));
 app.use('/api/trabajadores', require('./routes/trabajadores'));
- app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/reportes', require('./routes/reportes'));
 
 
 app.use((req, res) => {
