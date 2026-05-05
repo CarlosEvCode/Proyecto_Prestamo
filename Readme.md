@@ -30,6 +30,7 @@ El servidor está construido con Node.js y Express, siguiendo un patrón de dise
 ### Frontend
 - **Lenguaje:** JavaScript (ES6+)
 - **Estilos:** Bootstrap 5.3.2 / CSS3 Custom Properties
+- **Gráficos:** Chart.js
 - **Iconografía:** Bootstrap Icons
 - **Animaciones:** Animate.css
 
@@ -54,21 +55,24 @@ El servidor está construido con Node.js y Express, siguiendo un patrón de dise
 ## Módulos y Funcionalidades
 
 ### 1. Dashboard
-Visualización de indicadores clave, estadísticas generales del inventario y estado actual de los préstamos.
+Visualización de indicadores clave, estadísticas generales del inventario y estado actual de los préstamos mediante gráficos interactivos.
 
-### 2. Gestión de Herramientas
+### 2. Análisis de Datos (Gráficos)
+Representación visual de métricas críticas como tendencias de préstamos, distribución de herramientas por categoría y rendimiento de inventario utilizando Chart.js.
+
+### 3. Gestión de Herramientas
 Administración del inventario físico, incluyendo código de barras/serie, modelo, marca, categoría y condición física. Incluye generación de reportes PDF filtrables.
 
-### 3. Préstamos y Devoluciones
+### 4. Préstamos y Devoluciones
 Flujo completo de asignación de herramientas a trabajadores, control de fechas de retorno esperado y registro de devoluciones con actualización de condición del equipo.
 
-### 4. Personal (Trabajadores)
+### 5. Personal (Trabajadores)
 Registro y administración de operarios con asignación de áreas y cargos específicos.
 
-### 5. Compras y Proveedores
+### 6. Compras y Proveedores
 Seguimiento de adquisiciones de nuevos equipos y gestión del catálogo de proveedores asociados.
 
-### 6. Catálogos
+### 7. Catálogos
 Mantenimiento de tablas maestras como marcas, categorías, modelos y áreas.
 
 ## Credenciales de Acceso (Prueba)
