@@ -67,6 +67,15 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ success: false, message: "Herramienta no disponible" });
     }
 
+    // Verificar que la herramienta NO esté en préstamo activo
+    const [prestamoActivo] = await db.query(
+      "SELECT id_prestamo FROM prestamos WHERE id_herramienta = ? AND estado = 'activo'",
+      [id_herramienta]
+    );
+    if (prestamoActivo.length > 0) {
+      return res.status(400).json({ success: false, message: "Esta herramienta ya está en un préstamo activo" });
+    }
+
     // Crear préstamo
     const now = new Date().toISOString().split('T')[0];
     const [result] = await db.query(

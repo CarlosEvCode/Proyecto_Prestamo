@@ -105,7 +105,7 @@ const Compras = {
           <input type="text" class="form-control form-control-sm" placeholder="Serie" value="${item.numero_serie}" oninput="Compras.updateItem(${item.id}, 'numero_serie', this.value)">
         </td>
         <td>
-          <input type="number" class="form-control form-control-sm" placeholder="0.00" value="${item.precio}" oninput="Compras.updateItem(${item.id}, 'precio', this.value)">
+          <input type="number" class="form-control form-control-sm" placeholder="0.00" value="${item.precio}" min="0" step="0.01" oninput="Compras.updateItem(${item.id}, 'precio', this.value)">
         </td>
         <td class="pe-4 text-end">
           <button class="btn btn-sm text-danger" onclick="Compras.removeRow(${item.id})"><i class="bi bi-trash"></i></button>
@@ -127,6 +127,10 @@ const Compras = {
     // Validar que todas las filas tengan modelo y código
     const valid = this.items.every(i => i.id_modelo && i.codigo);
     if (!valid) return showToast('Completa los campos obligatorios en cada fila', 'error');
+
+    // Validar que los precios no sean negativos
+    const priceValid = this.items.every(i => !i.precio || parseFloat(i.precio) >= 0);
+    if (!priceValid) return showToast('Los precios no pueden ser negativos', 'error');
 
     setLoading('btnFinalizarCompra', 'btnFinalizarText', 'btnFinalizarSpinner', true);
 

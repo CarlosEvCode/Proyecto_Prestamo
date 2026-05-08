@@ -64,13 +64,14 @@
               <th>HERRAMIENTA / MODELO</th>
               <th>MARCA</th>
               <th>CONDICIÓN</th>
+              <th>UBICACIÓN / ÁREA</th>
               <th class="text-center">ESTADO</th>
               <th class="pe-4 text-end">ACCIONES</th>
             </tr>
           </thead>
           <tbody id="bodyHerramientas">
             <tr>
-              <td colspan="7" class="text-center py-5">
+              <td colspan="8" class="text-center py-5">
                 <div class="spinner-border text-primary spinner-border-sm" role="status"></div>
                 <span class="ms-2 text-muted">Cargando inventario...</span>
               </td>
@@ -88,7 +89,7 @@
     <div class="modal-header-custom">
       <div>
         <h5 id="modalHerramientaTitle">Nueva Herramienta</h5>
-        <small class="text-muted" id="modalHerramientaSubtitle">Información del equipo</small>
+        <small class="text-muted">Información del equipo</small>
       </div>
       <button type="button" class="btn-close" id="btnCloseModalHerramienta">
         <i class="bi bi-x-lg"></i>
@@ -99,12 +100,12 @@
       <form id="formHerramienta" novalidate>
         <input type="hidden" id="herramientaId" />
         <div class="row g-3">
-          <div class="col-md-6">
+          <div class="col-12">
             <label for="hCodigo" class="form-label">Código <span class="text-danger">*</span></label>
             <input type="text" id="hCodigo" class="form-control" placeholder="Ej: HERR-001" required />
             <div class="invalid-feedback d-block" id="err-hCodigo"></div>
           </div>
-          <div class="col-md-6">
+          <div class="col-12">
             <label for="hNumeroSerie" class="form-label">N° Serie</label>
             <input type="text" id="hNumeroSerie" class="form-control" placeholder="Opcional" />
           </div>
@@ -115,22 +116,24 @@
             </select>
             <div class="invalid-feedback d-block" id="err-hModelo"></div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 d-none" id="hCondicionField">
             <label for="hCondicion" class="form-label">Condición <span class="text-danger">*</span></label>
             <select id="hCondicion" class="form-select" required>
-              <option value="bueno">BUENO</option>
+              <option value="bueno" selected>BUENO</option>
               <option value="regular">REGULAR</option>
               <option value="malo">MALO</option>
             </select>
             <div class="invalid-feedback d-block" id="err-hCondicion"></div>
           </div>
-          <div class="col-md-6">
+          <input type="hidden" id="hCondicion" value="bueno" />
+          <div class="col-md-6 d-none" id="hActivoField">
             <label for="hActivo" class="form-label">Estado Sistema</label>
             <select id="hActivo" class="form-select">
-              <option value="1">ACTIVO</option>
+              <option value="1" selected>ACTIVO</option>
               <option value="0">INACTIVO</option>
             </select>
           </div>
+          <input type="hidden" id="hActivo" value="1" />
           <div class="col-12">
             <label for="hUbicacion" class="form-label">Ubicación</label>
             <input type="text" id="hUbicacion" class="form-control" placeholder="Ej: Almacén A - Estante 2" />

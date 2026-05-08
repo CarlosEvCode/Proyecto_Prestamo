@@ -36,6 +36,11 @@ router.post("/", async (req, res) => {
 
     // 2. Procesar cada ítem
     for (const item of items) {
+      // Validar que el precio no sea negativo
+      if (item.precio && item.precio < 0) {
+        throw new Error(`El precio no puede ser negativo: ${item.precio}`);
+      }
+
       // A. Crear la herramienta física
       const [herramientaRes] = await connection.query(
         "INSERT INTO herramientas (codigo, numero_serie, id_modelo, condicion, created_by) VALUES (?, ?, ?, 'bueno', ?)",

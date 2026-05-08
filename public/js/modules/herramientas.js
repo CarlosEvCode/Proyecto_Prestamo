@@ -64,8 +64,8 @@ const HerramientasModule = {
           <td class="fw-bold">${escapeHtml(tool.codigo)}</td>
           <td>
             <div class="fw-bold">${escapeHtml(tool.modelo_nombre || 'N/A')}</div>
-            <div class="text-muted text-xs">${escapeHtml(tool.marca_nombre || '—')}</div>
           </td>
+          <td class="text-muted">${escapeHtml(tool.marca_nombre || '—')}</td>
           <td><span class="badge ${condClass}">${tool.condicion.toUpperCase()}</span></td>
           <td class="text-muted">${escapeHtml(tool.ubicacion || '—')}</td>
           <td class="text-center">${statusBadge}</td>
@@ -150,8 +150,15 @@ const HerramientasModule = {
       document.getElementById('hCondicion').value = herramienta.condicion || '';
       document.getElementById('hUbicacion').value = herramienta.ubicacion || '';
       document.getElementById('hActivo').value = herramienta.activo ? '1' : '0';
+      // Mostrar campos en modo edición
+      document.getElementById('hCondicionField').classList.remove('d-none');
+      document.getElementById('hActivoField').classList.remove('d-none');
     } else {
       document.getElementById('hActivo').value = '1'; // Por defecto activo
+      document.getElementById('hCondicion').value = 'bueno'; // Por defecto bueno
+      // Ocultar campos en modo nuevo
+      document.getElementById('hCondicionField').classList.add('d-none');
+      document.getElementById('hActivoField').classList.add('d-none');
     }
 
     openOverlay('modalHerramientaOverlay');

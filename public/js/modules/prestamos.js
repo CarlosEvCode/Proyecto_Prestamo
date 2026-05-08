@@ -111,10 +111,16 @@ const PrestamosModule = {
         `<option value="${t.id_trabajador}">${escapeHtml(t.nombre_completo)}</option>`
       ).join('');
     
-    // Poblar select herramientas
+    // Poblar select herramientas (excluir las que ya están en préstamo activo)
     const selHerr = document.getElementById('pHerramienta');
+    const herramientasEnPrestamo = (AppState.prestamos || []).filter(p => p.estado === 'activo').map(p => p.id_herramienta);
     selHerr.innerHTML = `<option value="">-- Selecciona una herramienta --</option>` +
-      (AppState.herramientas || []).filter(h => isEdit || h.activo).map(h => 
+      (AppState.herramientas || []).filter(h => {
+        // En modo edición, permitir herramientas inactivas o ya prestadas (la actual)
+        if (isEdit) return true;
+        // En modo nuevo, solo herramientas activas que NO estén en préstamo activo
+        return h.activo && !herramientasEnPrestamo.includes(h.id_herramienta);
+      }).map(h => 
         `<option value="${h.id_herramienta}">${escapeHtml(h.codigo)} - ${escapeHtml(h.modelo_nombre || 'Sin modelo')}</option>`
       ).join('');
 
@@ -125,8 +131,12 @@ const PrestamosModule = {
       document.getElementById('pMotivo').value = prestamo.motivo || '';
       document.getElementById('pFechaDev').value = prestamo.fecha_devolucion_esperada ? prestamo.fecha_devolucion_esperada.split('T')[0] : '';
       document.getElementById('pEstado').value = prestamo.estado || '';
+      // Mostrar estado en edición
+      document.getElementById('pEstadoField').classList.remove('d-none');
     } else {
       document.getElementById('pEstado').value = 'activo';
+      // Ocultar estado en modo nuevo
+      document.getElementById('pEstadoField').classList.add('d-none');
     }
 
     openOverlay('modalPrestamosOverlay');
